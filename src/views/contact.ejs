@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+    <h1>Contact Us</h1>
+
+    <form action="/contactSuccess" method="POST" class="contact-form">
+        <div class="form-group">
+            <label for="fullName">Full Name:</label>
+            <input
+                type="text"
+                id="fullName"
+                name="fullName"
+                required
+                maxlength="255"
+                placeholder="Enter your full name"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="message">Your Message:</label>
+            <textarea
+                type="text"
+                id="message"
+                name="message"
+                required
+                minlength="6"
+                placeholder="Enter your message"
+            ></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit">Send Message</button>
+        </div>
+    </form>
+<%- include('partials/footer') %>

@@ -6,40 +6,32 @@ import path from "path";
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 
+//import routes
+import indexRoutes from './src/routes/index.js'; 
 
 /**
  * Global Variables
  */
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config()
 const mode = process.env.NODE_ENV;
 const port = process.env.PORT;
-
-/**
- * Create and configure the Express server
- */
 const app = express();
 
-// Set EJS as the view engine and record the location of the views directory
+//global middleware
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware to parse JSON data in request body
+//middleware
 app.use(express.json());
-
-// Middleware to parse URL-encoded form data (like from a standard HTML form)
 app.use(express.urlencoded({ extended: true }));
 
 /**
  * Routes
  */
-
-
-/**
- * Start the server
- */
+app.use('/', indexRoutes);
 
 // When in development mode, start a WebSocket server for live reloading
 if (mode === ('development')) {
