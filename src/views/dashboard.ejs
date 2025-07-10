@@ -1,0 +1,46 @@
+<%- include('./partials/header') %>
+    <h1>Account Dashboard</h1>
+    
+    <div class="dashboard-welcome">
+    <h2>Welcome back!</h2>
+</div>
+
+<!-- user:
+    user info
+    view/edit/delete reviews
+    update account information
+-->
+
+<!-- employee: 
+    edit vehicle information
+    manage vehicle reviews
+    view and update repair service requests
+-->
+
+<!-- owner:
+    add/update/delete vehicles and categories
+    view messages 
+-->
+
+<div class="dashboard-content">
+    <section class="account-info">
+        <h3>Account Information</h3>
+        <p><strong>Email:</strong> <%= user.email %></p>
+        <p><strong>Role:</strong> <%= user.role_name %></p>
+        <p><strong>Session Status:</strong> Active</p>
+    </section>
+
+    <section class="dashboard-actions">
+        <h3>Quick Actions</h3>
+        <ul>
+            <li><a href="/dashboard">Product Management Dashboard</a></li>
+        </ul>
+    </section>
+</div>
+
+    <div class="logout-section">
+        <form action="/account/logout" method="POST" class="logout-form">
+            <button type="submit" class="logout-button">Logout</button>
+        </form>
+    </div>
+<%- include('./partials/footer') %>

@@ -12,10 +12,20 @@
         <nav>
             <a href="/"><img src="/images/site/car.png" alt="Logo"></a>
             <ul>
+                <!-- user has contact dashboard and logout button -->
+                <!-- employee and owner has just dashboard and logout button -->
                 <li><a href="/contact">Contact Us</a></li>
-                <li><a href="/categories">Vehicle Categories</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/register">Register</a></li>            
+                <% if (typeof req !== 'undefined' && req.session && req.session.isLoggedIn) { %>
+                    <li><a href="/account/dashboard">My Account</a></li>
+                    <li>
+                        <form action="/account/logout" method="POST" style="display: inline;">
+                            <button type="submit" class="nav-logout-btn">Logout</button>
+                        </form>
+                    </li>
+                <% } else { %>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
+                <% } %>            
             </ul>
         </nav>
     </header>
