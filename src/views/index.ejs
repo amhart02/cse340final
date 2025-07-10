@@ -1,3 +1,17 @@
 <%- include('partials/header') %>
-<h1>Home Page!!!</h1>
+<h1>Featured Vehicles</h1>
+<div class="vehicle-grid">
+<% featuredVehicles.forEach(vehicle => { %>
+    <div class="vehicle-card">
+        <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
+    </div>
+<% }) %>
+</div>
+<h2>Categories</h2>
+<ul class="category-list">
+    <% categories.forEach(category => { %>
+        <li><a href="/category/<%= category.slug %>"><%= category.name %></a></li>
+    <% }) %>
+</ul>
+
 <%- include('partials/footer') %>

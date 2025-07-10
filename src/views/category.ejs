@@ -1,12 +1,14 @@
 <%- include('partials/header') %>
 
-<!-- to display all cars in this category -->
+<h1><%= categoryData.name %></h1>
 
-<h1>Trucks</h1>
+<div class="vehicle-grid">
+<% vehicles.forEach(vehicle => { %>
+    <div class="vehicle-card">
+        <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
+        <a href="/category/<%= categoryData.slug %>/<%= vehicle.id %>"><%= vehicle.name %></a>
+    </div>
+<% }) %>
+</div>
 
-<ul>
-    <li><a href="/vehicleDetail">Truck 1</a></li>
-    <li>Truck 2</li>
-    <li>Truck 3</li>
-</ul>
 <%- include('partials/footer') %>

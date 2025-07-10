@@ -1,38 +1,38 @@
 import { Router } from 'express';
+import { getRandomVehicles, getVehicleById, getVehiclesByCategory } from '../models/vehicles/index.js';
+import { getAllCategories, getCategoryBySlug } from '../models/categories/index.js';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-    const title = "Home";
-    res.render('index', { title })
+router.get('/', async (req, res) => {
+        const featuredVehicles = await getRandomVehicles();
+        const categories = await getAllCategories();
+        const title = "Home";
+        res.render('index', { title, featuredVehicles, categories })
 })
 
-router.get('/contact', (req, res) => {
-    const title = "Contact";
-    res.render('contact', { title })
+router.get('/category/:category', async (req, res, next) => {
+    const { category } = req.params;
+
+    const categoryData = await getCategoryBySlug(category);
+    const vehicles = await getVehiclesByCategory(categoryData.id);
+    const title = categoryData.name;
+
+    if (!categoryData) {
+        const error = new Error('Category not found');
+        error.status = 404;
+        return next(error);
+    }
+    res.render('category', { title, categoryData, vehicles })
 })
 
-// work on figuring out POST and getting it to the database
-router.post('/contactSuccess', (req, res) => {
-    const title = "Contact Successful";
-    res.render('contactSuccess', { title })
-})
+router.get('/category/:category/:id', async (req, res) => {
+    const { id } = req.params;
+    
+    const vehicle = await getVehicleById(id);
+    const title = vehicle.name; 
 
-router.get('/categories', (req, res) => {
-    const title = "Vehicle Categories";
-    res.render('categories', { title })
-})
-
-// fix this
-router.get('/category', (req, res) => {
-    const title = "Truck";
-    res.render('category', { title })
-})
-
-//fix this too
-router.get('/vehicleDetail', (req, res) => {
-    const title = "Truck 1";
-    res.render('vehicleDetail', { title })
+    res.render('vehicleDetail', { title, vehicle })
 })
 
 router.get('/register', (req, res) => {

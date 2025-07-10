@@ -5,6 +5,10 @@ import express from "express";
 import path from "path";
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import { setupDatabase, testConnection } from './src/models/setup.js';
+import session from 'express-session';
+import pgSession from 'connect-pg-simple';
+import db from './src/models/db.js';
 
 //import routes
 import indexRoutes from './src/routes/index.js'; 
@@ -15,18 +19,39 @@ import indexRoutes from './src/routes/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config()
-const mode = process.env.NODE_ENV;
-const port = process.env.PORT;
+const mode = process.env.NODE_ENV || development;
+const port = process.env.PORT || 3000;
 const app = express();
 
 //global middleware
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 //middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//Session Middleware 
+const PostgresStore = pgSession(session);
+
+app.use(session({
+    store: new PostgresStore({
+        pool: db, 
+        tableName: 'sessions', 
+        createTableIfMissing: true 
+    }),
+    secret: process.env.SESSION_SECRET || "default-secret-change-in-production",
+    resave: false,
+    saveUninitialized: false,
+    name: "sessionId",
+    cookie: {
+        secure: false, 
+        httpOnly: true, 
+        maxAge: 30 * 24 * 60 * 60 * 1000 
+    }
+}));
 
 /**
  * Routes
@@ -55,6 +80,12 @@ if (mode === ('development')) {
 
 // Start the Express server
 app.listen(port, async () => {
-    // await testDatabase();
+    try {
+        await testConnection();
+        await setupDatabase();
+    } catch (error) {
+        console.error('Database setup failed:', error);
+        process.exit(1);
+    }
     console.log(`Server running on http://127.0.0.1:${port}`);
 });
