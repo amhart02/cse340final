@@ -12,12 +12,14 @@
 -->
 
 <!-- employee: 
+    user info
     edit vehicle information
     manage vehicle reviews
     view and update repair service requests
 -->
 
 <!-- owner:
+    user info
     add/update/delete vehicles and categories
     view messages 
 -->
@@ -33,7 +35,17 @@
     <section class="dashboard-actions">
         <h3>Quick Actions</h3>
         <ul>
-            <li><a href="/dashboard">Product Management Dashboard</a></li>
+            <% if ( user.role_name === "management") { %>
+                <li><a href="/vehicleManage">Manage Vehicles</a></li>
+                <li><a href="/vehicleCategories">Manage Categories</a></li>
+                <li><a href="/messages">View Messages</a></li>
+            <% } else if (user.role_name === "employee") { %>
+                <li><a href="/editVehicle">Edit Vehicles</a></li>
+                <li><a href="/manageReviews">Manage Reviews</a></li>
+                <li><a href="/viewRequests">View Service Requests</a></li>
+            <% } else { %>
+                <li><a href="/accountUpdate">Update Account</a></li>
+            <% } %>
         </ul>
     </section>
 </div>

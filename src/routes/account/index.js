@@ -3,26 +3,26 @@ import { createUser, authenticateUser, emailExists } from '../../models/account/
 
 const router = express.Router();
 
+// login routes 
 router.get('/login', (req, res) => {
     if (req.session.isLoggedIn) {
         return res.redirect('/account/dashboard');
     }
 
-    res.render('login', {title: 'Login'});
+    res.render('account/login', {title: 'Login'});
 });
-
 router.post('/login', async (req, res) => {
     try {
         const { username: email, password } = req.body;
 
         if (!email || !password) {
-            return res.render('login', { title: 'Login'});
+            return res.render('account/login', { title: 'Login'});
         };
 
         const user = await authenticateUser(email, password);
 
         if(!user) {
-            return res.render('login', { title: 'Login'});
+            return res.render('account/login', { title: 'Login'});
         }
 
         req.session.isLoggedIn = true;
@@ -31,18 +31,11 @@ router.post('/login', async (req, res) => {
 
         res.redirect('/account/dashboard');
     } catch (error) {
-        res.render('login', {title: 'Login'});
+        res.render('account/login', {title: 'Login'});
     }
 });
 
-router.get('/dashboard', (req, res) => {
-    if (!req.session.isLoggedIn) {
-        return res.redirect('login');
-    }
-
-    res.render('dashboard', { title: 'Account Dashboard', user: req.session.user, loginTime: req.session.loginTime});
-});
-
+//logout route
 router.post('/logout', (req, res) => { 
     req.session.destroy((err) => {
         if (err) {
@@ -55,14 +48,23 @@ router.post('/logout', (req, res) => {
     });
 });
 
+//dashboard route
+router.get('/dashboard', (req, res) => {
+    if (!req.session.isLoggedIn) {
+        return res.redirect('login');
+    }
+
+    res.render('account/dashboard', { title: 'Account Dashboard', user: req.session.user, loginTime: req.session.loginTime});
+});
+
+//register routes
 router.get('/register', (req, res) => {
     if (req.session.isLoggedIn) {
         return res.redirect('/account/dashboard');
     }
 
-    res.render('register', { title: 'Create Account' });
+    res.render('account/register', { title: 'Create Account' });
 });
-
 router.post('/register', async (req, res) => {
     try {
         const { email, password, confirmPassword } = req.body;
@@ -97,8 +99,10 @@ router.post('/register', async (req, res) => {
 
     } catch (error) {
         console.error('Registration error:', error);
-        res.render('register', { title: 'Create Account'});
+        res.render('account/register', { title: 'Create Account'});
     }
 });
+
+
 
 export default router;

@@ -35,7 +35,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
     res.locals.req = req;
-    next();
+    res.locals.user = req.session?.user || null;
+    next()
 });
 
 //Session Middleware 

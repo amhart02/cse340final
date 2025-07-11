@@ -14,7 +14,9 @@
             <ul>
                 <!-- user has contact dashboard and logout button -->
                 <!-- employee and owner has just dashboard and logout button -->
-                <li><a href="/contact">Contact Us</a></li>
+                <% if ( user && user.role_name === "user" || !req.session.isLoggedIn) { %>
+                    <li><a href="/contact">Contact Us</a></li>
+                <% } %>
                 <% if (typeof req !== 'undefined' && req.session && req.session.isLoggedIn) { %>
                     <li><a href="/account/dashboard">My Account</a></li>
                     <li>
