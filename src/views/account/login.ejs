@@ -1,7 +1,7 @@
-<%- include('partials/header') %>
+<%- include('../partials/header') %>
     <h1>Login to Your Account</h1>
 
-    <form action="account/login" method="POST" class="login-form">
+    <form action="/account/login" method="POST" class="login-form">
         <div class="form-group">
             <label for="username">Email Address:</label>
             <input
@@ -31,4 +31,4 @@
             <a href="/register" class="secondary-link">Don't have an account? Register</a>
         </div>
     </form>
-<%- include('partials/footer') %>
+<%- include('../partials/footer') %>

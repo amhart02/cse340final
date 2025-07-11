@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, authenticateUser, emailExists } from '../../models/account/index.js';
+import { createUser, authenticateUser, emailExists, updateEmail, updatePassword } from '../../models/account/index.js';
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.get('/login', (req, res) => {
         return res.redirect('/account/dashboard');
     }
 
-    res.render('account/login', {title: 'Login'});
+    res.render('account/login', {title: 'Login', user: req.session.user || null, req});
 });
 router.post('/login', async (req, res) => {
     try {
@@ -28,6 +28,8 @@ router.post('/login', async (req, res) => {
         req.session.isLoggedIn = true;
         req.session.user = user;
         req.loginTime = new Date();
+
+        console.log('Logged in user:', user);
 
         res.redirect('/account/dashboard');
     } catch (error) {
@@ -103,6 +105,35 @@ router.post('/register', async (req, res) => {
     }
 });
 
+//update account routes
+router.get('/update/:type', (req, res) => {
+    const type = req.params.type;
+
+    res.render('account/accountUpdate', {title : `Update ${type.charAt(0).toUpperCase() + type.slice(1)}`, update: type });
+});
+
+router.post('/update/:type', async (req, res) => {
+    const { type } = req.params;
+    const userId = req.session.user.id;
+
+    try {
+        if (type === 'email') {
+            const { newEmail, confirmEmail } = req.body;
+            if (newEmail === confirmEmail) {
+                await updateEmail(userId, newEmail);
+            }
+        } else if (type === 'password') {
+            const { newPassword, confirmPassword } = req.body;
+            if (newPassword === confirmPassword) {
+                await updatePassword(userId, newPassword);
+            }
+        }
+        res.redirect('/account/dashboard');
+    } catch (err) {
+        console.error(err);
+        res.render('account/accountUpdate', { title: 'Update Account', update: type });
+    }
+})
 
 
 export default router;

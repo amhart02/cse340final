@@ -11,12 +11,6 @@ async function getCategoryBySlug (slug) {
     }
 }
 
-async function getProductsByCategory(categoryId) {
-    // TODO: Implement products table and functionality in future assignment
-    console.log(`Mock: Getting products for category ID ${categoryId}`);
-    return [];
-}
-
 async function getAllCategories () {
     const result = await db.query(` 
         SELECT * FROM categories
@@ -25,4 +19,4 @@ async function getAllCategories () {
     return result.rows;
 }
 
-export { getCategoryBySlug, getProductsByCategory, getAllCategories };
+export { getCategoryBySlug, getAllCategories };

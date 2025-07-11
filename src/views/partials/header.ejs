@@ -14,7 +14,7 @@
             <ul>
                 <!-- user has contact dashboard and logout button -->
                 <!-- employee and owner has just dashboard and logout button -->
-                <% if ( user && user.role_name === "user" || !req.session.isLoggedIn) { %>
+                <% if ( (user && user.role_name === "user") || !req.session.isLoggedIn) { %>
                     <li><a href="/contact">Contact Us</a></li>
                 <% } %>
                 <% if (typeof req !== 'undefined' && req.session && req.session.isLoggedIn) { %>
@@ -25,11 +25,14 @@
                         </form>
                     </li>
                 <% } else { %>
-                    <li><a href="/login">Login</a></li>
-                    <li><a href="/register">Register</a></li>
+                    <li><a href="/account/login">Login</a></li>
+                    <li><a href="/account/register">Register</a></li>
                 <% } %>            
             </ul>
         </nav>
+        <!-- Take this out later -->
+        <p>Logged In: <%= req.session.isLoggedIn %></p>
+        <p>User role: <%= user ? user.role_name : 'No user' %></p>
     </header>
     <main>
 

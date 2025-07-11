@@ -1,2 +1,16 @@
 <%- include('partials/header') %>
+    <!-- add car name below -->
+    <h1>Review <%= vehicle.name %> </h1>
+
+    <form action="/review/<%= category %>/<%= vehicle.id %>" method="POST" class="review-form">
+        <label for="review">Leave Your Review:</label>
+        <textarea id="review"
+            name="review"
+            required
+            maxlength="255"></textarea>
+
+        <div class="form-actions">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
 <%- include('partials/footer') %>

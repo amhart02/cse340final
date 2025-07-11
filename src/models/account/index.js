@@ -78,4 +78,44 @@ async function emailExists(email) {
     }
 }
 
-export { createUser, getUserByEmail, authenticateUser, emailExists };
+async function updateEmail (userId, newEmail) {
+    try {
+        const query =  `
+        UPDATE users
+        SET email = $1
+        WHERE id = $2
+        RETURNING id, email, role_id, created_at;
+        `;
+
+        const values = [newEmail, userId];
+        const result = await db.query(query, values);
+
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error creating user:', error.message);
+        throw error;
+    };
+}
+
+async function updatePassword (userId, newPassword) {
+    try {
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+
+        const query =  `
+        UPDATE users
+        SET password = $1
+        WHERE id = $2
+        RETURNING id, email, role_id, created_at;
+        `;
+
+        const values = [hashedPassword, userId];
+        const result = await db.query(query, values);
+
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error creating user:', error.message);
+        throw error;
+    };
+}
+
+export { createUser, getUserByEmail, authenticateUser, emailExists, updateEmail, updatePassword };

@@ -48,6 +48,16 @@ CREATE TABLE IF NOT EXISTS users (
 );
 `;
 
+const createReviewsTable = `
+CREATE TABLE IF NOT EXISTS reviews (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id),
+    vehicle_id INTEGER NOT NULL REFERENCES vehicles(id),
+    review_text TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`;
+
+
 const initialCategories = [
     {
         name: "Sports Cars",
@@ -266,6 +276,9 @@ const setupDatabase = async () => {
         
         await db.query(createUsersTable);
         if (verbose) console.log('Users table ready');
+
+        await db.query(createReviewsTable);
+        if (verbose) console.log('Reviews table ready');
         
         //make categories
         for (const category of initialCategories) {

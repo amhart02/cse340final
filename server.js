@@ -24,21 +24,6 @@ const mode = process.env.NODE_ENV || development;
 const port = process.env.PORT || 3000;
 const app = express();
 
-//global middleware
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'src/views'));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static('public'));
-
-//middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-    res.locals.req = req;
-    res.locals.user = req.session?.user || null;
-    next()
-});
-
 //Session Middleware 
 const PostgresStore = pgSession(session);
 
@@ -58,6 +43,22 @@ app.use(session({
         maxAge: 30 * 24 * 60 * 60 * 1000 
     }
 }));
+
+//global middleware
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'src/views'));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
+
+
+//middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use((req, res, next) => {
+    res.locals.req = req;
+    res.locals.user = req.session?.user || null;
+    next()
+});
 
 /**
  * Routes

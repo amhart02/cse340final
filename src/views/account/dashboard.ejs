@@ -1,4 +1,4 @@
-<%- include('./partials/header') %>
+<%- include('../partials/header') %>
     <h1>Account Dashboard</h1>
     
     <div class="dashboard-welcome">
@@ -44,7 +44,8 @@
                 <li><a href="/manageReviews">Manage Reviews</a></li>
                 <li><a href="/viewRequests">View Service Requests</a></li>
             <% } else { %>
-                <li><a href="/accountUpdate">Update Account</a></li>
+                <li><a href="/account/update/email">Update Email</a></li>
+                <li><a href="/account/update/password">Update Password</a></li>
             <% } %>
         </ul>
     </section>
@@ -55,4 +56,4 @@
             <button type="submit" class="logout-button">Logout</button>
         </form>
     </div>
-<%- include('./partials/footer') %>
+<%- include('../partials/footer') %>

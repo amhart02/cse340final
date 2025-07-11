@@ -45,7 +45,6 @@ async function addVehicle(vehicleData) {
             vehicleData.description,
             vehicleData.price,
             vehicleData.image,
-            //figure out how to add category
             vehicle.year
         ];
         const result = await db.query(query, values);
