@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import { getAllVehicles, getRandomVehicles, getVehicleById, getVehiclesByCategory, editVehicle, addVehicle } from '../models/vehicles/index.js';
 import { getAllCategories, getCategoryBySlug, editCategory, addCategory } from '../models/categories/index.js';
-import { addReview, getReviewsByUser, getReviewById, updateReview, deleteReview, getAllReviews } from '../models/reviews/index.js';
 import { createContactMessage, getAllContactMessages } from '../models/contact/index.js';
 
 const router = Router();
@@ -56,93 +55,16 @@ router.get('/category/:category/:id', async (req, res) => {
 })
 
 //review routes
-router.get('/review/:category/:id', async (req, res) => {
-    const { id, category } = req.params;
-    
-    const vehicle = await getVehicleById(id);
-    const title = `Review ${vehicle.name}`;
 
-    res.render('review', { title, vehicle, category })
-})
-router.post('/review/:category/:id', async (req, res) => {
-    const vehicleId = req.params.id;
-    const userId = req.session.user?.id;
-    const reviewText = req.body.review;
-    const category = req.params.category;
+//review routes
 
-    if (!userId) {
-        return res.status(401).send('Please log in to submit a review.');
-    }
-
-    if (!reviewText || reviewText.trim().length === 0) {
-        return res.status(400).send('Review cannot be empty.');
-    }
-
-    try {
-        await addReview({ userId, vehicleId, reviewText: reviewText.trim() });
-        res.redirect(`/category/${category}/${vehicleId}`);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error submitting review.')
-    }
-})
-
-//dashboard review routes
-router.get('/reviews', async (req, res) => {
-    const userId = req.session.user?.id;
-
-    if (!userId) {
-        return res.redirect('/account/login');
-    }
-
-    try {
-        const reviews = await getReviewsByUser(userId);
-        res.render('reviews', { title: 'My Reviews', reviews, userId })
-
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error retrieving your reviews');
-    }
-})
-router.get('/reviews/edit/:reviewId', async (req, res) => {
-    const reviewId = req.params.reviewId;
-
-    const review = await getReviewById(reviewId);
-
-    res.render('editReview', { title: 'Edit Review', review})
-});
-router.post('/reviews/edit/:reviewId', async (req, res) => {
-    const reviewId = req.params.reviewId;
-    const updatedText = req.body.review;
-
-    await updateReview(reviewId, updatedText);
-    res.redirect('/reviews');
-});
-router.post('/reviews/delete/:reviewId', async (req, res) => {
-    const reviewId = req.params.reviewId;
-    const userRole = req.session.user?.role_name;
-
-    await deleteReview(reviewId);
-    if (userRole === "user") {
-        res.redirect('/reviews');
-    } else {
-        res.redirect('/reviews/manage');
-    }
-})
-router.get('/reviews/manage', async (req, res) => {
-    const reviews = await getAllReviews();
-    const title = 'Manage Reviews';
-    res.render('manageReviews', { title, reviews})
-})
 
 //manage vehicle routes 
 router.get('/manage/vehicle', async (req, res) => {
     const title = 'Manage Vehicles';
-    const user = req.session.id;
-
     const vehicles = await getAllVehicles();
 
-    res.render('manageVehicle', { title, vehicles, user})
+    res.render('manage/vehicle', { title, vehicles})
 })
 router.get('/manage/vehicle/edit/:id', async (req, res) => {
     const vehicleId = req.params.id;
@@ -151,7 +73,7 @@ router.get('/manage/vehicle/edit/:id', async (req, res) => {
     const vehicle = await getVehicleById(vehicleId);
     const categories = await getAllCategories();
 
-    res.render('manageVehicleEdit', { title , vehicle, categories })
+    res.render('manage/vehicleEdit', { title , vehicle, categories })
 })
 router.post('/manage/vehicle/edit/:id', async (req, res) => {
     const vehicleId = req.params.id;
@@ -176,7 +98,7 @@ router.get('/manage/vehicle/add', async (req, res) => {
 
     const categories = await getAllCategories();
 
-    res.render('manageVehicleAdd', { title, categories })
+    res.render('manage/vehicleAdd', { title, categories })
 })
 router.post('/manage/vehicle/add', async (req, res) => {
     const { name, description, price, image, category_id, year } = req.body;
@@ -195,7 +117,7 @@ router.get('/manage/category', async (req, res) => {
 
     const categories = await getAllCategories();
 
-    res.render('manageCategory', { title, categories})
+    res.render('manage/category', { title, categories})
 })
 router.get('/manage/category/edit/:slug', async (req, res) => {
     const categorySlug = req.params.slug;
@@ -203,7 +125,7 @@ router.get('/manage/category/edit/:slug', async (req, res) => {
 
     const category = await getCategoryBySlug(categorySlug);
 
-    res.render('manageCategoryEdit', { title , category })
+    res.render('manage/categoryEdit', { title , category })
 })
 router.post('/manage/category/edit/:slug', async (req, res) => {
     const slug = req.params.slug;
@@ -225,7 +147,7 @@ router.post('/manage/category/delete/:id', async (req, res) => {
 })
 router.get('/manage/category/add', (req, res) => {
     const title = 'Add a Category'
-    res.render('manageCategoryAdd', { title })
+    res.render('manage/categoryAdd', { title })
 })
 router.post('/manage/category/add', async (req, res) => {
     const { name, description } = req.body;

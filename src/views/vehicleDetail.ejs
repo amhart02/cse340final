@@ -6,6 +6,6 @@
 
 <!-- if they are a user they can leave, edit, and delete reviews -->
 <% if (user && user.role_name === "user") { %>
-    <a href="/review/<%= category %>/<%= vehicle.id %>">Leave a Review</a>
+    <a href="/reviews/<%= category %>/<%= vehicle.id %>">Leave a Review</a>
 <% } %> 
 <%- include('partials/footer') %>

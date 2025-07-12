@@ -13,6 +13,7 @@ import db from './src/models/db.js';
 //import routes
 import indexRoutes from './src/routes/index.js'; 
 import accountRoutes from './src/routes/account/index.js';
+import reviewsRoutes from './src/routes/reviews/index.js';
 
 /**
  * Global Variables
@@ -56,7 +57,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use((req, res, next) => {
     res.locals.req = req;
-    res.locals.user = req.session?.user || null;
+    res.locals.user = req.session.user || null;
     next()
 });
 
@@ -65,6 +66,7 @@ app.use((req, res, next) => {
  */
 app.use('/', indexRoutes);
 app.use('/account', accountRoutes);
+app.use('/reviews', reviewsRoutes);
 
 // When in development mode, start a WebSocket server for live reloading
 if (mode === ('development')) {

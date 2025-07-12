@@ -1,4 +1,4 @@
-<%- include('partials/header') %>
+<%- include('../partials/header') %>
     <h1>Your Reviews </h1>
 
     <div>
@@ -8,7 +8,7 @@
         <% } else { %>
             <% reviews.forEach(review => { %>
                 <div>
-                    <h3><%= review.name %></h3>
+                    <h3><%= review.vehicle_name %></h3>
                     <p><%= review.review_text %></p>
                     <a href="/reviews/edit/<%= review.id %>">Edit</a>
                     <form action="/reviews/delete/<%= review.id %>" method="POST">
@@ -18,4 +18,4 @@
             <% }) %>
         <% } %>
     </div>
-<%- include('partials/footer') %>
+<%- include('../partials/footer') %>

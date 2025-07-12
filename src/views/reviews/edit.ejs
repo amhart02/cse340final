@@ -1,16 +1,15 @@
-<%- include('partials/header') %>
-    <!-- add car name below -->
+<%- include('../partials/header') %>
     <h1>Edit <%= review.vehicle_name %> Review</h1>
 
-    <form action="/reviews/edit/<%= review.id%>" method="POST" class="review-form">
+    <form action="/reviews/edit/<%= review.id %>" method="POST" class="review-form">
         <label for="review">Edit Your Review:</label>
         <textarea id="review"
             name="review"
             required
-            maxlength="255"></textarea>
+            maxlength="255"><%= review.text %></textarea>
 
         <div class="form-actions">
             <button type="submit">Submit</button>
         </div>
     </form>
-<%- include('partials/footer') %>
+<%- include('../partials/footer') %>

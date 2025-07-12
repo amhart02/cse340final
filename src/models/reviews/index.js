@@ -31,9 +31,25 @@ async function getAllReviews () {
     return result.rows;
 }
 
+export async function getAllReviewsWithVehicleNames() {
+  const query = `
+    SELECT
+      reviews.id AS id,
+      reviews.review_text AS text,
+      reviews.vehicle_id AS vehicleId,
+      vehicles.name AS vehicleName
+    FROM reviews
+    JOIN vehicles ON reviews.vehicle_id = vehicles.id
+    ORDER BY reviews.id DESC;
+  `;
+
+  const result = await db.query(query); 
+  return result.rows; 
+}
+
 async function getReviewsByUser(userId) {
     const query = `
-    SELECT r.id, r.review_text, r.created_at, v.name
+    SELECT r.id, r.review_text, r.created_at, v.name AS vehicle_name
     FROM reviews r
     JOIN vehicles v ON r.vehicle_id = v.id
     WHERE r.user_id = $1

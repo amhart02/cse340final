@@ -1,4 +1,4 @@
-<%- include('partials/header') %>
+<%- include('../partials/header') %>
 <h1>Edit <%= vehicle.name %></h1>
 <form action="/manage/vehicle/edit/<%= vehicle.id %>" method="POST">
     <input name="name" value="<%= vehicle.name %>">
@@ -21,4 +21,4 @@
     <button type="submit">Update Vehicle</button>
 </form>
 
-<%- include('partials/footer') %>
+<%- include('../partials/footer') %>

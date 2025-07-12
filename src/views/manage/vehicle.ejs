@@ -1,4 +1,4 @@
-<%- include('partials/header') %>
+<%- include('../partials/header') %>
     <h1>Manage Vehicles</h1>
 
     <div>
@@ -9,7 +9,7 @@
                 <div>
                     <h3><%= vehicle.name %></h3>
                     <a href="/manage/vehicle/edit/<%= vehicle.id %>">Edit</a>
-                    <% if (user.role_name === "owner") { %>
+                    <% if (user.role_name === "management") { %>
                         <form action="/manage/vehicle/delete/<%= vehicle.id %>" method="POST">
                         <button type="submit">Delete</button>
                     </form>
@@ -21,4 +21,4 @@
     </div>
 
     <a href="/manage/vehicle/add">Add a Vehicle</a>
-<%- include('partials/footer') %>
+<%- include('../partials/footer') %>

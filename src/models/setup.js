@@ -66,6 +66,17 @@ CREATE TABLE IF NOT EXISTS contact_messages (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`;
 
+const createRepairRequestsTable = `
+CREATE TABLE IF NOT EXISTS repair_requests  (
+    id SERIAL PRIMARY KEY,
+    vehicle_id INTEGER REFERENCES vehicles(id),
+    user_id INTEGER REFERENCES users(id),
+    description TEXT NOT NULL,
+    status VARCHAR(50) DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`;
+
+
 const initialCategories = [
     {
         name: "Sports Cars",
@@ -291,6 +302,8 @@ const setupDatabase = async () => {
         await db.query(createContactMessagesTable);
         if (verbose) console.log('Contact Messages table ready');
 
+        await db.query(createRepairRequestsTable);
+        if (verbose) console.log('Repair Requests table ready');
         
         
         //make categories

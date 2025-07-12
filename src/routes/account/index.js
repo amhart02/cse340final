@@ -109,7 +109,7 @@ router.post('/register', async (req, res) => {
 router.get('/update/:type', (req, res) => {
     const type = req.params.type;
 
-    res.render('account/accountUpdate', {title : `Update ${type.charAt(0).toUpperCase() + type.slice(1)}`, update: type });
+    res.render('account/update', {title : `Update ${type.charAt(0).toUpperCase() + type.slice(1)}`, update: type });
 });
 
 router.post('/update/:type', async (req, res) => {
@@ -131,7 +131,7 @@ router.post('/update/:type', async (req, res) => {
         res.redirect('/account/dashboard');
     } catch (err) {
         console.error(err);
-        res.render('account/accountUpdate', { title: 'Update Account', update: type });
+        res.render('account/update', { title: 'Update Account', update: type });
     }
 })
 
