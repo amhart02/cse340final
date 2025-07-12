@@ -108,7 +108,7 @@ async function editVehicle(vehicleId, updatedData) {
 }
 
 async function deleteVehicle (vehicleId) {
-    const query = `DELETE FROM vehicle WHERE id = $1`;
+    const query = `DELETE FROM vehicles WHERE id = $1`;
     await db.query(query, [vehicleId]);
 }
 

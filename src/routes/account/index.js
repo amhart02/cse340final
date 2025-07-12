@@ -1,39 +1,34 @@
 import express from 'express';
+
 import { createUser, authenticateUser, emailExists, updateEmail, updatePassword } from '../../models/account/index.js';
 
 const router = express.Router();
 
 // login routes 
 router.get('/login', (req, res) => {
+    const title = 'Login';
     if (req.session.isLoggedIn) {
         return res.redirect('/account/dashboard');
     }
-
-    res.render('account/login', {title: 'Login', user: req.session.user || null, req});
+    res.render('account/login', { title, user: req.session.user || null, req });
 });
 router.post('/login', async (req, res) => {
+    const title = 'Login';
     try {
         const { username: email, password } = req.body;
-
         if (!email || !password) {
             return res.render('account/login', { title: 'Login'});
         };
-
         const user = await authenticateUser(email, password);
-
         if(!user) {
             return res.render('account/login', { title: 'Login'});
         }
-
         req.session.isLoggedIn = true;
         req.session.user = user;
         req.loginTime = new Date();
-
-        console.log('Logged in user:', user);
-
         res.redirect('/account/dashboard');
     } catch (error) {
-        res.render('account/login', {title: 'Login'});
+        res.render('account/login', { title });
     }
 });
 
@@ -44,7 +39,6 @@ router.post('/logout', (req, res) => {
             console.error('Error destroying session:', err);
             return res.redirect('/account/dashboard');
         }
-
         res.clearCookie('sessionId');
         res.redirect('/');
     });
@@ -52,22 +46,23 @@ router.post('/logout', (req, res) => {
 
 //dashboard route
 router.get('/dashboard', (req, res) => {
+    const title = 'Account Dashboard';
     if (!req.session.isLoggedIn) {
         return res.redirect('login');
     }
-
-    res.render('account/dashboard', { title: 'Account Dashboard', user: req.session.user, loginTime: req.session.loginTime});
+    res.render('account/dashboard', { title , user: req.session.user, loginTime: req.session.loginTime });
 });
 
 //register routes
 router.get('/register', (req, res) => {
+    const title = 'Create Account';
     if (req.session.isLoggedIn) {
         return res.redirect('/account/dashboard');
     }
-
-    res.render('account/register', { title: 'Create Account' });
+    res.render('account/register', { title });
 });
 router.post('/register', async (req, res) => {
+    const title = 'Create Account';
     try {
         const { email, password, confirmPassword } = req.body;
         const errors = [];
@@ -101,21 +96,20 @@ router.post('/register', async (req, res) => {
 
     } catch (error) {
         console.error('Registration error:', error);
-        res.render('account/register', { title: 'Create Account'});
+        res.render('account/register', { title });
     }
 });
 
 //update account routes
 router.get('/update/:type', (req, res) => {
+    const title = `Update ${type.charAt(0).toUpperCase() + type.slice(1)}`;
     const type = req.params.type;
-
-    res.render('account/update', {title : `Update ${type.charAt(0).toUpperCase() + type.slice(1)}`, update: type });
+    res.render('account/update', {title, update: type });
 });
-
 router.post('/update/:type', async (req, res) => {
+    const title = 'Update Account';
     const { type } = req.params;
     const userId = req.session.user.id;
-
     try {
         if (type === 'email') {
             const { newEmail, confirmEmail } = req.body;
@@ -131,9 +125,8 @@ router.post('/update/:type', async (req, res) => {
         res.redirect('/account/dashboard');
     } catch (err) {
         console.error(err);
-        res.render('account/update', { title: 'Update Account', update: type });
+        res.render('account/update', { title, update: type });
     }
 })
-
 
 export default router;
