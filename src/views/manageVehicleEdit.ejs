@@ -13,6 +13,10 @@
         </option>
     <% }) %>
     </select>
+    <select name="status" id="status">
+        <option value="available" <%= vehicle?.status === 'available' ? 'selected' : '' %>>Available</option>
+        <option value="sold" <%= vehicle?.status === 'sold' ? 'selected' : '' %>>Sold</option>
+        </select>
     <input name="year" value="<%= vehicle.year %>">
     <button type="submit">Update Vehicle</button>
 </form>

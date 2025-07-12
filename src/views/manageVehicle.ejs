@@ -9,9 +9,12 @@
                 <div>
                     <h3><%= vehicle.name %></h3>
                     <a href="/manage/vehicle/edit/<%= vehicle.id %>">Edit</a>
-                    <form action="/manage/vehicle/delete/<%= vehicle.id %>" method="POST">
+                    <% if (user.role_name === "owner") { %>
+                        <form action="/manage/vehicle/delete/<%= vehicle.id %>" method="POST">
                         <button type="submit">Delete</button>
                     </form>
+                    <% } %>
+                    
                 </div>
             <% }) %>
         <% } %>

@@ -36,8 +36,8 @@ async function getVehiclesByCategory (category) {
 async function addVehicle(vehicleData) {
     try {
         const query = `
-            INSERT INTO vehicles (name, description, price, image, category_id, year)
-            VALUES ($1, $2, $3, $4, $5, $6)
+            INSERT INTO vehicles (name, description, price, image, category_id, year, status)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING *;
         `;
         const values = [
@@ -45,7 +45,9 @@ async function addVehicle(vehicleData) {
             vehicleData.description,
             vehicleData.price,
             vehicleData.image,
-            vehicle.year
+            vehicleData.category_id,
+            vehicleData.year,
+            'available'
         ];
         const result = await db.query(query, values);
         return result.rows[0];
@@ -75,6 +77,7 @@ async function editVehicle(vehicleId, updatedData) {
         image: updatedData.image || existing.image,
         category_id: updatedData.category_id || existing.category_id,
         year: updatedData.year || existing.year,
+        status: updatedData.status || existing.status
     };
 
     const query = `
@@ -84,8 +87,9 @@ async function editVehicle(vehicleId, updatedData) {
             price = $3,
             image = $4,
             category_id = $5,
-            year = $6
-        WHERE id = $7
+            year = $6,
+            status = $7
+        WHERE id = $8
         RETURNING *;
     `;
     const values = [
@@ -95,6 +99,7 @@ async function editVehicle(vehicleId, updatedData) {
         merged.image,
         merged.category_id,
         merged.year,
+        merged.status,
         vehicleId,
     ];
 

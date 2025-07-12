@@ -138,10 +138,11 @@ router.get('/reviews/manage', async (req, res) => {
 //manage vehicle routes 
 router.get('/manage/vehicle', async (req, res) => {
     const title = 'Manage Vehicles';
+    const user = req.session.id;
 
     const vehicles = await getAllVehicles();
 
-    res.render('manageVehicle', { title, vehicles})
+    res.render('manageVehicle', { title, vehicles, user})
 })
 router.get('/manage/vehicle/edit/:id', async (req, res) => {
     const vehicleId = req.params.id;
@@ -179,7 +180,6 @@ router.get('/manage/vehicle/add', async (req, res) => {
 })
 router.post('/manage/vehicle/add', async (req, res) => {
     const { name, description, price, image, category_id, year } = req.body;
-
     try {
         await addVehicle({ name, description, price, image, category_id, year });
         res.redirect('/manage/vehicle');
