@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+<h1>Add a Vehicle</h1>
+<form action="/manage/vehicle/add" method="POST">
+    <label for="name">Vehicle Name:</label>
+    <input name="name">
+    <label for="description">Description:</label>
+    <input name="description">
+    <label for="price">Price:</label>
+    <input name="price">
+    <label for="image">Image:</label>
+    <input name="image" placeholder="Image URL">
+    <label for="category">Category:</label>
+    <select name="category_id" required>
+    <% categories.forEach(category => { %>
+        <option value="<%= category.id %>" 
+        <%= typeof vehicle !== 'undefined' && category.id === vehicle.category_id ? 'selected' : '' %>>
+        <%= category.name %>
+        </option>
+    <% }) %>
+    </select>
+    <label for="year">Year:</label>
+    <input name="year">
+    <button type="submit">Update Vehicle</button>
+</form>
+
+<%- include('partials/footer') %>

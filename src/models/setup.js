@@ -57,6 +57,14 @@ CREATE TABLE IF NOT EXISTS reviews (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`;
 
+const createContactMessagesTable = `
+CREATE TABLE IF NOT EXISTS contact_messages (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    message TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`;
 
 const initialCategories = [
     {
@@ -279,6 +287,11 @@ const setupDatabase = async () => {
 
         await db.query(createReviewsTable);
         if (verbose) console.log('Reviews table ready');
+
+        await db.query(createContactMessagesTable);
+        if (verbose) console.log('Contact Messages table ready');
+
+        
         
         //make categories
         for (const category of initialCategories) {

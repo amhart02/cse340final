@@ -5,25 +5,6 @@
     <h2>Welcome back!</h2>
 </div>
 
-<!-- user:
-    user info
-    view/edit/delete reviews
-    update account information
--->
-
-<!-- employee: 
-    user info
-    edit vehicle information
-    manage vehicle reviews
-    view and update repair service requests
--->
-
-<!-- owner:
-    user info
-    add/update/delete vehicles and categories
-    view messages 
--->
-
 <div class="dashboard-content">
     <section class="account-info">
         <h3>Account Information</h3>
@@ -36,16 +17,18 @@
         <h3>Quick Actions</h3>
         <ul>
             <% if ( user.role_name === "management") { %>
-                <li><a href="/vehicleManage">Manage Vehicles</a></li>
-                <li><a href="/vehicleCategories">Manage Categories</a></li>
-                <li><a href="/messages">View Messages</a></li>
+                <li><a href="/manage/vehicle">Manage Vehicles</a></li>
+                <li><a href="/manage/category">Manage Categories</a></li>
+                <li><a href="/contact/messages">View Messages</a></li>
             <% } else if (user.role_name === "employee") { %>
-                <li><a href="/editVehicle">Edit Vehicles</a></li>
-                <li><a href="/manageReviews">Manage Reviews</a></li>
+                <li><a href="/vehicle/manage">Edit Vehicles</a></li>
+                <li><a href="/reviews/manage">Manage Reviews</a></li>
                 <li><a href="/viewRequests">View Service Requests</a></li>
+                <li><a href="/contact/messages">Messages</a></li>
             <% } else { %>
                 <li><a href="/account/update/email">Update Email</a></li>
                 <li><a href="/account/update/password">Update Password</a></li>
+                <li><a href="/reviews">Manage Your Reviews</a></li>
             <% } %>
         </ul>
     </section>

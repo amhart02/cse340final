@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+    <h1>Your Reviews </h1>
+
+    <div>
+        <% if (reviews.length === 0) { %>
+            <h2>No Reviews Yet</h2>
+            <p>Visit a car page to leave a review!</p>
+        <% } else { %>
+            <% reviews.forEach(review => { %>
+                <div>
+                    <h3><%= review.name %></h3>
+                    <p><%= review.review_text %></p>
+                    <a href="/reviews/edit/<%= review.id %>">Edit</a>
+                    <form action="/reviews/delete/<%= review.id %>" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+<%- include('partials/footer') %>

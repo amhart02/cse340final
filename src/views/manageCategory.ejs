@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+    <h1>Manage Categories</h1>
+
+    <div>
+        <% if (categories.length === 0) { %>
+            <h2>No Categories</h2>
+        <% } else { %>
+            <% categories.forEach(category => { %>
+                <div>
+                    <h3><%= category.name %></h3>
+                    <a href="/manage/category/edit/<%= category.slug %>">Edit</a>
+                    <form action="/manage/category/delete/<%= category.slug %>" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+
+    <a href="/manage/category/add">Add a Category</a>
+<%- include('partials/footer') %>

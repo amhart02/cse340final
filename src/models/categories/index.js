@@ -19,4 +19,34 @@ async function getAllCategories () {
     return result.rows;
 }
 
-export { getCategoryBySlug, getAllCategories };
+async function editCategory (slug, { name, description }) {
+    const newSlug = name.toLowerCase().replace(/\s+/g, '-');
+
+    const query = `
+        UPDATE categories 
+        SET name = $1, description = $2, slug = $3
+        WHERE slug = $4
+        RETURNING *;
+    `;
+
+    const values = [name, description, newSlug, slug];
+    const result = await db.query(query, values);
+
+    return result.rows[0];
+}
+
+async function addCategory({ name, description }) {
+    const slug = name.toLowerCase().replace(/\s+/g, '-'); 
+
+    const query = `
+        INSERT INTO categories (name, description, slug)
+        VALUES ($1, $2, $3)
+        RETURNING *;
+    `;
+
+    const values = [name, description, slug];
+    const result = await db.query(query, values);
+    return result.rows[0];
+}
+
+export { getCategoryBySlug, getAllCategories, editCategory, addCategory};

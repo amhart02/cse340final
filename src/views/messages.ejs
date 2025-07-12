@@ -1,0 +1,17 @@
+<%- include('partials/header') %>
+    <h1>Messages</h1>
+
+    <div>
+        <% if (messages.length === 0) { %>
+            <h2>No Messages</h2>
+        <% } else { %>
+            <% messages.forEach(message => { %>
+                <div>
+                    <h3><%= message.name %></h3>
+                    <h4><%= message.email %></h4>
+                    <p><%= message.message %></p>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+<%- include('partials/footer') %>

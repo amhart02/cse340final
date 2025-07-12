@@ -25,6 +25,7 @@ nav {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    /* background-image: url('../images/site/small_check.png'); */
     img {
         height: 200px;
         width: 200px;

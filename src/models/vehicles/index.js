@@ -61,7 +61,51 @@ async function getRandomVehicles () {
         ORDER BY RANDOM()
         LIMIT 3
         `);
-        return result.rows;
+    return result.rows;
 }
 
-export { getAllVehicles, getVehicleById, getVehiclesByCategory, addVehicle, getRandomVehicles };
+async function editVehicle(vehicleId, updatedData) {
+    const existing = await getVehicleById(vehicleId);
+    if (!existing) throw new Error('Vehicle not found');
+
+    const merged = {
+        name: updatedData.name || existing.name,
+        description: updatedData.description || existing.description,
+        price: updatedData.price || existing.price,
+        image: updatedData.image || existing.image,
+        category_id: updatedData.category_id || existing.category_id,
+        year: updatedData.year || existing.year,
+    };
+
+    const query = `
+        UPDATE vehicles
+        SET name = $1,
+            description = $2,
+            price = $3,
+            image = $4,
+            category_id = $5,
+            year = $6
+        WHERE id = $7
+        RETURNING *;
+    `;
+    const values = [
+        merged.name,
+        merged.description,
+        merged.price,
+        merged.image,
+        merged.category_id,
+        merged.year,
+        vehicleId,
+    ];
+
+    const result = await db.query(query, values);
+    return result.rows[0];
+}
+
+async function deleteVehicle (vehicleId) {
+    const query = `DELETE FROM vehicle WHERE id = $1`;
+    await db.query(query, [vehicleId]);
+}
+
+
+export { getAllVehicles, getVehicleById, getVehiclesByCategory, addVehicle, getRandomVehicles, editVehicle, deleteVehicle };

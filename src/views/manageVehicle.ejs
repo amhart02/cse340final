@@ -1,0 +1,21 @@
+<%- include('partials/header') %>
+    <h1>Manage Vehicles</h1>
+
+    <div>
+        <% if (vehicles.length === 0) { %>
+            <h2>No vehicles</h2>
+        <% } else { %>
+            <% vehicles.forEach(vehicle => { %>
+                <div>
+                    <h3><%= vehicle.name %></h3>
+                    <a href="/manage/vehicle/edit/<%= vehicle.id %>">Edit</a>
+                    <form action="/manage/vehicle/delete/<%= vehicle.id %>" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+
+    <a href="/manage/vehicle/add">Add a Vehicle</a>
+<%- include('partials/footer') %>

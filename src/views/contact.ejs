@@ -1,7 +1,7 @@
 <%- include('partials/header') %>
     <h1>Contact Us</h1>
 
-    <form action="/contactSuccess" method="POST" class="contact-form">
+    <form action="/contact" method="POST" class="contact-form">
         <div class="form-group">
             <label for="fullName">Full Name:</label>
             <input
@@ -11,6 +11,18 @@
                 required
                 maxlength="255"
                 placeholder="Enter your full name"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                maxlength="255"
+                placeholder="Enter your email address"
             >
         </div>
 
