@@ -69,12 +69,13 @@ CREATE TABLE IF NOT EXISTS contact_messages (
 const createRepairRequestsTable = `
 CREATE TABLE IF NOT EXISTS repair_requests  (
     id SERIAL PRIMARY KEY,
-    vehicle_id INTEGER REFERENCES vehicles(id),
+    vehicle_name TEXT NOT NULL,
     user_id INTEGER REFERENCES users(id),
     description TEXT NOT NULL,
     status VARCHAR(50) DEFAULT 'Pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )`;
+
 
 
 const initialCategories = [

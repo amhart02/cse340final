@@ -14,7 +14,8 @@ import db from './src/models/db.js';
 import indexRoutes from './src/routes/index.js'; 
 import accountRoutes from './src/routes/account/index.js';
 import reviewsRoutes from './src/routes/reviews/index.js';
-import manageRoutes from './src/routes/manage/index.js'
+import manageRoutes from './src/routes/manage/index.js';
+import repairRoutes from './src/routes/repairs/index.js';
 
 /**
  * Global Variables
@@ -69,6 +70,8 @@ app.use('/', indexRoutes);
 app.use('/account', accountRoutes);
 app.use('/reviews', reviewsRoutes);
 app.use('/manage', manageRoutes);
+app.use('/repair', repairRoutes);
+
 
 // When in development mode, start a WebSocket server for live reloading
 if (mode === ('development')) {

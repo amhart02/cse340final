@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+    <h1>Manage Repairs</h1>
+
+    <div>
+        <% if (requests.length === 0) { %>
+            <h2>No Repairs</h2>
+        <% } else { %>
+            <% requests.forEach(request => { %>
+                <div>
+                    <h3><%= request.vehicle_name %></h3>
+                    <a href="/manage/repair/edit/<%= repair.id %>">Edit</a>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+
+<%- include('../partials/footer') %>

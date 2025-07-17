@@ -23,12 +23,13 @@
             <% } else if (user.role_name === "employee") { %>
                 <li><a href="/manage/vehicle">Edit Vehicles</a></li>
                 <li><a href="/reviews/manage">Manage Reviews</a></li>
-                <li><a href="/viewRequests">View Service Requests</a></li>
+                <li><a href="/repair/manage">View Repair Requests</a></li>
                 <li><a href="/contact/messages">Messages</a></li>
             <% } else { %>
                 <li><a href="/account/update/email">Update Email</a></li>
                 <li><a href="/account/update/password">Update Password</a></li>
                 <li><a href="/reviews">Manage Your Reviews</a></li>
+                <li><a href="/repair">Repair Requests</a></li>
             <% } %>
         </ul>
     </section>

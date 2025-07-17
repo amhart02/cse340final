@@ -1,0 +1,17 @@
+<%- include('../partials/header') %>
+    <h1>Your Repair Requests</h1>
+
+    <div>
+        <% if (repairs.length === 0) { %>
+            <h2>No Repairs Yet</h2>
+        <% } else { %>
+            <% repairs.forEach(repair => { %>
+                <div>
+                    <h3><%= repair.vehicle_name %></h3>
+                    <p><%= repair.description %></p>
+                    <h2><%= repair.status %></h2>
+                </div>
+            <% }) %>
+        <% } %>
+    </div>
+<%- include('../partials/footer') %>

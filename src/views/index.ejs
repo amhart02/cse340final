@@ -3,9 +3,16 @@
 <div class="vehicle-grid">
 <% featuredVehicles.forEach(vehicle => { %>
     <div class="vehicle-card">
-        <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
-        <h2><%= vehicle.name %> </h2>
-        <h3>Price: <span>$<%= Number(vehicle.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span></h3>
+        <a href="/category/<%= vehicle.category_id %>/<%= vehicle.id %>"><img src="<%= vehicle.image %>" alt="<%= vehicle.name %>"></a>
+        <section>
+            <div>
+                <a href="/category/<%= vehicle.category_id %>/<%= vehicle.id %>"><%= vehicle.name %> </a>
+                <h3>Price: <span>$<%= Number(vehicle.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span></h3>
+            </div>
+            <button>
+                <a href="/category/<%= vehicle.category_id %>/<%= vehicle.id %>">View Car</a>
+            </button>
+        </section>
     </div>
 <% }) %>
 </div>
