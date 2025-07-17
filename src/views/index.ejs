@@ -4,14 +4,18 @@
 <% featuredVehicles.forEach(vehicle => { %>
     <div class="vehicle-card">
         <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
+        <h2><%= vehicle.name %> </h2>
+        <h3>Price: <span>$<%= Number(vehicle.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span></h3>
     </div>
 <% }) %>
 </div>
-<h2>Categories</h2>
-<ul class="category-list">
-    <% categories.forEach(category => { %>
-        <li><a href="/category/<%= category.slug %>"><%= category.name %></a></li>
-    <% }) %>
-</ul>
+<div class="categories-list">
+    <h2>Categories</h2>
+    <ul class="category-list">
+        <% categories.forEach(category => { %>
+            <li><a href="/category/<%= category.slug %>"><%= category.name %></a></li>
+        <% }) %>
+    </ul>
+</div>
 
 <%- include('partials/footer') %>

@@ -12,8 +12,6 @@
         <nav>
             <a href="/"><img src="/images/site/car.png" alt="Logo"></a>
             <ul>
-                <!-- user has contact dashboard and logout button -->
-                <!-- employee and owner has just dashboard and logout button -->
                 <% if ( (user && user.role_name === "user") || !req.session.isLoggedIn) { %>
                     <li><a href="/contact">Contact Us</a></li>
                 <% } %>
@@ -30,9 +28,6 @@
                 <% } %>            
             </ul>
         </nav>
-        <!-- Take this out later -->
-        <p>Logged In: <%= req.session.isLoggedIn %></p>
-        <p>User role: <%= user ? user.role_name : 'No user' %></p>
     </header>
     <main>
 
