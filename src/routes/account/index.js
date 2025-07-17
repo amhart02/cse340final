@@ -34,6 +34,10 @@ router.post('/login', async (req, res) => {
 
 //logout route
 router.post('/logout', (req, res) => { 
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     req.session.destroy((err) => {
         if (err) {
             console.error('Error destroying session:', err);
@@ -46,6 +50,10 @@ router.post('/logout', (req, res) => {
 
 //dashboard route
 router.get('/dashboard', (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Account Dashboard';
     if (!req.session.isLoggedIn) {
         return res.redirect('login');
@@ -55,6 +63,10 @@ router.get('/dashboard', (req, res) => {
 
 //register routes
 router.get('/register', (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Create Account';
     if (req.session.isLoggedIn) {
         return res.redirect('/account/dashboard');
@@ -62,6 +74,10 @@ router.get('/register', (req, res) => {
     res.render('account/register', { title });
 });
 router.post('/register', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Create Account';
     try {
         const { email, password, confirmPassword } = req.body;
@@ -102,11 +118,19 @@ router.post('/register', async (req, res) => {
 
 //update account routes
 router.get('/update/:type', (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = `Update ${type.charAt(0).toUpperCase() + type.slice(1)}`;
     const type = req.params.type;
     res.render('account/update', {title, update: type });
 });
 router.post('/update/:type', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Update Account';
     const { type } = req.params;
     const userId = req.session.user.id;

@@ -9,9 +9,15 @@ const router = Router();
 router.get('/', async (req, res) => {
     const title = 'My Reviews';
     const userId = req.session.user?.id;
-    if (!userId) {
-        return res.redirect('/account/login');
-    }
+        // if (!req.session.isLoggedIn) {
+        // req.flash('error', 'Please log in to access the dashboard');
+        // return res.render('accounts/login', {
+        // title: 'Login'
+        // });
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     try {
         const reviews = await getReviewsByUser(userId);
         res.render('reviews/reviews', { title , reviews, userId })
@@ -22,40 +28,71 @@ router.get('/', async (req, res) => {
 })
 
 router.get('/edit/:reviewId', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Edit Review';
     const reviewId = req.params.reviewId;
     const review = await getReviewById(reviewId);
     res.render('reviews/edit', { title, review})
 });
 router.post('/edit/:reviewId', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const reviewId = req.params.reviewId;
     const updatedText = req.body.review;
     await updateReview(reviewId, updatedText);
     res.redirect('/reviews');
 });
 router.post('/delete/:reviewId', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        req.flash('error', "You must be logged in to delete a review");
+        return res.redirect('/')
+    };
     const reviewId = req.params.reviewId;
     const userRole = req.session.user?.role_name;
-    await deleteReview(reviewId);
-    if (userRole === "user") {
-        res.redirect('/');
-    } else {
-        res.redirect('/manage');
+    try {
+        await deleteReview(reviewId);
+        req.flash('success', 'Review Deleted');
+        if (userRole === "user") {
+            res.redirect('/');
+        } else {
+            res.redirect('/reviews');
+        }
+    } catch (error) {
+        req.flash('error', 'Failed to delete review.');
+        return res.redirect('/reviews');
     }
 })
 router.get('/manage', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const reviews = await getAllReviews();
     const title = 'Manage Reviews';
     res.render('reviews/manage', { title, reviews})
 })
 
 router.get('/:category/:id', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const { id, category } = req.params;
     const vehicle = await getVehicleById(id);
     const title = `Review ${vehicle.name}`;
     res.render('reviews/review', { title, vehicle, category })
 })
 router.post('/:category/:id', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const vehicleId = req.params.id;
     const userId = req.session.user?.id;
     const reviewText = req.body.review;

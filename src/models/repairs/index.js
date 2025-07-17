@@ -21,7 +21,7 @@ async function editRequest (repairId, status) {
     if (!existing) throw new Error('Request not found');
 
     const query = `
-        UPDATE vehicles
+        UPDATE repair_requests
         SET status = $1
         WHERE id = $2
         RETURNING *;
@@ -38,7 +38,7 @@ async function getRequestByUser(userId) {
     SELECT *
     FROM repair_requests
     WHERE user_id = $1
-    ORDER BY r.created_at DESC`;
+    ORDER BY created_at DESC`;
 
     const result = await db.query(query, [userId]);
     return result.rows;
@@ -46,9 +46,9 @@ async function getRequestByUser(userId) {
 
 async function createRepairRequest ({ userId, vehicleName, description}) {
     const query = `
-    INSERT INTO repair_requests 
+    INSERT INTO repair_requests (user_id, vehicle_name, description)
     VALUES ($1, $2, $3)
-    RETURNING id, vehicle_name, userId, description, status, created_at;
+    RETURNING id, vehicle_name, user_id, description, status, created_at;
     `;
 
     const values = [ userId, vehicleName, description]

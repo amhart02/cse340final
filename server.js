@@ -9,6 +9,7 @@ import { setupDatabase, testConnection } from './src/models/setup.js';
 import session from 'express-session';
 import pgSession from 'connect-pg-simple';
 import db from './src/models/db.js';
+import flashMessages from './src/middleware/flash.js';
 
 //import routes
 import indexRoutes from './src/routes/index.js'; 
@@ -52,14 +53,14 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'src/views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static('public'));
-
-
-//middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(flashMessages);
 app.use((req, res, next) => {
     res.locals.req = req;
     res.locals.user = req.session.user || null;
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
     next()
 });
 

@@ -8,7 +8,9 @@
             <% requests.forEach(request => { %>
                 <div>
                     <h3><%= request.vehicle_name %></h3>
-                    <a href="/manage/repair/edit/<%= repair.id %>">Edit</a>
+                    <h2><%= request.status %></h2>
+                    <p><%= request.description %></p>
+                    <a href="/repair/edit/<%= request.id %>">Edit</a>
                 </div>
             <% }) %>
         <% } %>

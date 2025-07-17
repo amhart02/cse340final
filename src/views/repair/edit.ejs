@@ -1,6 +1,6 @@
 <%- include('../partials/header') %>
 <h1>Update <%= repair.vehicle_name %> Repair Request</h1>
-<form action="/manage/repair/edit/<%= repair.id %>" method="POST">
+<form action="/repair/edit/<%= repair.id %>" method="POST">
     <select name="status" id="status">
         <option value="Pending">Pending</option>
         <option value="In Progress">In progress</option>

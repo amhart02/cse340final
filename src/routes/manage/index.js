@@ -7,11 +7,19 @@ const router = Router();
 
 //vehicle manage routes
 router.get('/vehicle', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Manage Vehicles';
     const vehicles = await getAllVehicles();
     res.render('manage/vehicle', { title, vehicles})
 })
 router.get('/vehicle/edit/:id', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const vehicleId = req.params.id;
     const title = 'Edit Vehicle';
     const vehicle = await getVehicleById(vehicleId);
@@ -19,6 +27,10 @@ router.get('/vehicle/edit/:id', async (req, res) => {
     res.render('manage/vehicleEdit', { title , vehicle, categories })
 })
 router.post('/vehicle/edit/:id', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const vehicleId = req.params.id;
     const updatedData = req.body;
     try {
@@ -30,16 +42,28 @@ router.post('/vehicle/edit/:id', async (req, res) => {
     }
 })
 router.post('/vehicle/delete/:id', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const vehicleId = req.params.id;
     await deleteVehicle(vehicleId);
     res.redirect('/manage/vehicle');
 })
 router.get('/vehicle/add', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Add a Vehicle';
     const categories = await getAllCategories();
     res.render('manage/vehicleAdd', { title, categories })
 })
 router.post('/vehicle/add', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const { name, description, price, image, category_id, year } = req.body;
     try {
         await addVehicle({ name, description, price, image, category_id, year });
@@ -52,17 +76,29 @@ router.post('/vehicle/add', async (req, res) => {
 
 //category manage routes
 router.get('/category', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Manage Categories';
     const categories = await getAllCategories();
     res.render('manage/category', { title, categories})
 })
 router.get('/category/edit/:slug', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const categorySlug = req.params.slug;
     const title = 'Edit Category';
     const category = await getCategoryBySlug(categorySlug);
     res.render('manage/categoryEdit', { title , category })
 })
 router.post('/category/edit/:slug', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const slug = req.params.slug;
     const { name, description } = req.body;
     try {
@@ -74,15 +110,27 @@ router.post('/category/edit/:slug', async (req, res) => {
     }
 })
 router.post('/category/delete/:id', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const vehicleId = req.params.id;
     await deleteVehicle(vehicleId);
     res.redirect('/manage/category');
 })
 router.get('/category/add', (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const title = 'Add a Category'
     res.render('manage/categoryAdd', { title })
 })
 router.post('/category/add', async (req, res) => {
+    if (!req.session.isLoggedIn) {
+        console.log('Unauthorized Access')
+        return res.redirect('/')
+    };
     const { name, description } = req.body;
     try {
         await addCategory({ name, description });

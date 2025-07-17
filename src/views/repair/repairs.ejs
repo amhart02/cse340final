@@ -2,10 +2,10 @@
     <h1>Your Repair Requests</h1>
 
     <div>
-        <% if (repairs.length === 0) { %>
+        <% if (requests.length === 0) { %>
             <h2>No Repairs Yet</h2>
         <% } else { %>
-            <% repairs.forEach(repair => { %>
+            <% requests.forEach(repair => { %>
                 <div>
                     <h3><%= repair.vehicle_name %></h3>
                     <p><%= repair.description %></p>
@@ -13,5 +13,6 @@
                 </div>
             <% }) %>
         <% } %>
+        <a href="/repair/create">Create Repair Request</a>
     </div>
 <%- include('../partials/footer') %>
