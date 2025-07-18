@@ -58,58 +58,73 @@ async function addVehicle(vehicleData) {
 };
 
 async function getRandomVehicles () {
-    const result = await db.query(`
-        SELECT * FROM vehicles
-        ORDER BY RANDOM()
-        LIMIT 3
+    try {
+        const result = await db.query(`
+            SELECT * FROM vehicles
+            ORDER BY RANDOM()
+            LIMIT 3
         `);
-    return result.rows;
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching random vehicles:', error.message);
+        throw new Error('Failed to fetch random vehicles');
+    }
 }
 
 async function editVehicle(vehicleId, updatedData) {
-    const existing = await getVehicleById(vehicleId);
-    if (!existing) throw new Error('Vehicle not found');
+    try {
+        const existing = await getVehicleById(vehicleId);
+        if (!existing) throw new Error('Vehicle not found');
 
-    const merged = {
-        name: updatedData.name || existing.name,
-        description: updatedData.description || existing.description,
-        price: updatedData.price || existing.price,
-        image: updatedData.image || existing.image,
-        category_id: updatedData.category_id || existing.category_id,
-        year: updatedData.year || existing.year,
-        status: updatedData.status || existing.status
-    };
+        const merged = {
+            name: updatedData.name || existing.name,
+            description: updatedData.description || existing.description,
+            price: updatedData.price || existing.price,
+            image: updatedData.image || existing.image,
+            category_id: updatedData.category_id || existing.category_id,
+            year: updatedData.year || existing.year,
+            status: updatedData.status || existing.status
+        };
 
-    const query = `
-        UPDATE vehicles
-        SET name = $1,
-            description = $2,
-            price = $3,
-            image = $4,
-            category_id = $5,
-            year = $6,
-            status = $7
-        WHERE id = $8
-        RETURNING *;
-    `;
-    const values = [
-        merged.name,
-        merged.description,
-        merged.price,
-        merged.image,
-        merged.category_id,
-        merged.year,
-        merged.status,
-        vehicleId,
-    ];
+        const query = `
+            UPDATE vehicles
+            SET name = $1,
+                description = $2,
+                price = $3,
+                image = $4,
+                category_id = $5,
+                year = $6,
+                status = $7
+            WHERE id = $8
+            RETURNING *;
+        `;
+        const values = [
+            merged.name,
+            merged.description,
+            merged.price,
+            merged.image,
+            merged.category_id,
+            merged.year,
+            merged.status,
+            vehicleId,
+        ];
 
-    const result = await db.query(query, values);
-    return result.rows[0];
+        const result = await db.query(query, values);
+        return result.rows[0];
+    } catch (error) {
+        console.error('Error editing vehicle:', error.message);
+        throw new Error('Failed to edit vehicle');
+    }
 }
 
 async function deleteVehicle (vehicleId) {
-    const query = `DELETE FROM vehicles WHERE id = $1`;
-    await db.query(query, [vehicleId]);
+    try {
+        const query = `DELETE FROM vehicles WHERE id = $1`;
+        await db.query(query, [vehicleId]);
+    } catch (error) {
+        console.error('Error deleting vehicle:', error.message);
+        throw new Error('Failed to delete vehicle');
+    }
 }
 
 

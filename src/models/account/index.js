@@ -21,7 +21,7 @@ async function createUser(userData) {
         return result.rows[0];
     } catch (error) {
         console.error('Error creating user:', error.message);
-        throw error;
+        throw new Error('Failed to create user');
     };
 }
 
@@ -33,12 +33,11 @@ async function getUserByEmail(email) {
             JOIN roles r ON u.role_id = r.id
             WHERE u.email = $1;
         `;
- 
         const result = await db.query(query, [email]);
         return result.rows[0] || null;
     } catch (error) {
         console.error('Error fetching user by email:', error.message);
-        throw error;
+        throw new Error('Failed to fetch user');
     }
 }
 
@@ -63,7 +62,7 @@ async function authenticateUser(email, password) {
         return null;
     } catch (error) {
         console.error('Error authenticating user:', error.message);
-        throw error;
+        throw new Error('Authentication failed');
     }
 }
 
@@ -74,7 +73,7 @@ async function emailExists(email) {
         return result.rows.length > 0;
     } catch (error) {
         console.error('Error checking email existence:', error.message);
-        throw error;
+        throw new Error('Failed to check email existence');
     }
 }
 
@@ -93,7 +92,7 @@ async function updateEmail (userId, newEmail) {
         return result.rows[0];
     } catch (error) {
         console.error('Error creating user:', error.message);
-        throw error;
+        throw new Error('Failed to update email');
     };
 }
 
@@ -102,10 +101,10 @@ async function updatePassword (userId, newPassword) {
         const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
 
         const query =  `
-        UPDATE users
-        SET password = $1
-        WHERE id = $2
-        RETURNING id, email, role_id, created_at;
+            UPDATE users
+            SET password = $1
+            WHERE id = $2
+            RETURNING id, email, role_id, created_at;
         `;
 
         const values = [hashedPassword, userId];
@@ -114,7 +113,7 @@ async function updatePassword (userId, newPassword) {
         return result.rows[0];
     } catch (error) {
         console.error('Error creating user:', error.message);
-        throw error;
+        throw new Error('Failed to update password');
     };
 }
 

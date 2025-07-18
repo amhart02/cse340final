@@ -79,6 +79,7 @@ router.post('/register', async (req, res) => {
     if (!email || !email.includes('@')) errors.push('Valid email is required.');
     if (!password || password.length < 8) errors.push('Password must be at least 8 characters.');
     if (password !== confirmPassword) errors.push('Passwords do not match.');
+    if (await emailExists(email)) errors.push('Email already in use.');
 
     if (errors.length > 0) {
         errors.forEach(error => req.flash('error', error));
@@ -124,6 +125,9 @@ router.post('/update/:type', async (req, res) => {
             const { newEmail, confirmEmail } = req.body;
             if (!newEmail || !newEmail.includes('@')) errors.push('Valid new email required.');
             if (newEmail !== confirmEmail) errors.push('Emails do not match.');
+            if (await emailExists(newEmail)) errors.push('Email is already in use.');
+
+            
             if (errors.length === 0) {
                 await updateEmail(userId, newEmail);
                 req.flash('success', 'Email updated successfully.');
