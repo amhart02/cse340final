@@ -6,19 +6,23 @@
             <h2>No vehicles</h2>
         <% } else { %>
             <% vehicles.forEach(vehicle => { %>
-                <div>
-                    <h3><%= vehicle.name %></h3>
-                    <a href="/manage/vehicle/edit/<%= vehicle.id %>">Edit</a>
-                    <% if (user.role_name === "management") { %>
-                        <form action="/manage/vehicle/delete/<%= vehicle.id %>" method="POST">
-                        <button type="submit">Delete</button>
-                    </form>
-                    <% } %>
-                    
+                <div class="vehicle-grid">
+                    <div class="vehicle-card">
+                        <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
+                        <h3><%= vehicle.name %></h3>
+                        <a class="edit" href="/manage/vehicle/edit/<%= vehicle.id %>">Edit</a>
+                        <% if (user.role_name === "management") { %>
+                            <form class="delete" action="/manage/vehicle/delete/<%= vehicle.id %>" method="POST">
+                                <button type="submit">Delete</button>
+                            </form>
+                        <% } %>
+                    </div>
                 </div>
             <% }) %>
         <% } %>
     </div>
 
-    <a href="/manage/vehicle/add">Add a Vehicle</a>
+    <div class="add-container">
+        <a class="add" href="/manage/vehicle/add">Add a Vehicle</a>
+    </div>
 <%- include('../partials/footer') %>

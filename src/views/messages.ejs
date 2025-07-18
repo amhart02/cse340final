@@ -6,7 +6,7 @@
             <h2>No Messages</h2>
         <% } else { %>
             <% messages.forEach(message => { %>
-                <div>
+                <div class="messages">
                     <h3><%= message.name %></h3>
                     <h4><%= message.email %></h4>
                     <p><%= message.message %></p>

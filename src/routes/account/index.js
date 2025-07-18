@@ -73,7 +73,7 @@ router.get('/register', (req, res) => {
     res.render('account/register', { title });
 });
 router.post('/register', async (req, res) => {
-    const title = 'Create Account';
+    const { email, password, confirmPassword } = req.body;
     const errors = [];
 
     if (!email || !email.includes('@')) errors.push('Valid email is required.');
@@ -103,12 +103,13 @@ router.get('/update/:type', (req, res) => {
         req.flash('error', 'Access Denied');
         return res.redirect("/login");
     }
+    const type = req.params.type;
+    const title = `Update ${type.charAt(0).toUpperCase() + type.slice(1)}`;
+    const allowed = ['email', 'password'];
     if (!allowed.includes(type)) {
         req.flash('error', 'Invalid update type.');
         return res.redirect('/account/dashboard');
     }
-    const title = `Update ${type.charAt(0).toUpperCase() + type.slice(1)}`;
-    const type = req.params.type;
     res.render('account/update', {title, update: type });
 });
 router.post('/update/:type', async (req, res) => {
@@ -116,7 +117,6 @@ router.post('/update/:type', async (req, res) => {
         req.flash('error', 'Access Denied');
         return res.redirect("/login");
     }
-    const title = 'Update Account';
     const { type } = req.params;
     const userId = req.session.user.id;
     const errors = [];
@@ -133,6 +133,8 @@ router.post('/update/:type', async (req, res) => {
                 req.flash('success', 'Email updated successfully.');
             }
         } else if (type === 'password') {
+            const { newPassword, confirmPassword } = req.body;
+            
             if (!newPassword || newPassword.length < 8) errors.push('Password must be at least 8 characters.');
             if (newPassword !== confirmPassword) errors.push('Passwords do not match.');
 
@@ -149,7 +151,7 @@ router.post('/update/:type', async (req, res) => {
         }
         res.redirect('/account/dashboard');
     } catch (error) {
-        console.error('Update error:', err);
+        console.error('Update error:', error);
         req.flash('error', 'Failed to update account.');
         res.redirect(`/account/update/${type}`);
     }

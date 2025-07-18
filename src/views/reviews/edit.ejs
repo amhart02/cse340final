@@ -2,12 +2,14 @@
     <h1>Edit <%= review.vehicle_name %> Review</h1>
 
     <form action="/reviews/edit/<%= review.id %>" method="POST" class="review-form">
-        <label for="review">Edit Your Review:</label>
-        <textarea id="review"
-            name="review"
-            required
-            maxlength="255"><%= review.text %></textarea>
-
+        <div>
+            <label for="review">Edit Your Review:</label>
+            <textarea id="review"
+                name="review"
+                required
+                maxlength="255"><%= review.text %>
+            </textarea>
+        </div>
         <div class="form-actions">
             <button type="submit">Submit</button>
         </div>

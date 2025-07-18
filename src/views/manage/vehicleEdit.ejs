@@ -1,23 +1,38 @@
 <%- include('../partials/header') %>
 <h1>Edit <%= vehicle.name %></h1>
 <form action="/manage/vehicle/edit/<%= vehicle.id %>" method="POST">
-    <input name="name" value="<%= vehicle.name %>">
-    <input name="description" value="<%= vehicle.description %>">
-    <input name="price" value="<%= vehicle.price %>">
-    <img src="<%= vehicle.image %>" alt="Vehicle Image" style="width: 200px;">
-    <input name="image" value="<%= vehicle.image %>" placeholder="Image URL">
-    <select name="category_id" required>
-    <% categories.forEach(category => { %>
-        <option value="<%= category.id %>"> <%= category.id === vehicle.category_id ? 'selected' : '' %>>
-        <%= category.name %>
-        </option>
-    <% }) %>
+    <img src="<%= vehicle.image %>" alt="Vehicle Image">
+
+    <div>
+        <input name="name" value="<%= vehicle.name %>">
+    </div>
+    <div>
+        <input name="description" value="<%= vehicle.description %>">
+    </div>
+    <div>
+        <input name="price" value="<%= vehicle.price %>">
+    </div>
+    <div>
+        <input name="image" value="<%= vehicle.image %>" placeholder="Image URL">
+    </div>
+    <div>
+        <select name="category_id" required>
+        <% categories.forEach(category => { %>
+            <option value="<%= category.id %>"> <%= category.id === vehicle.category_id ? 'selected' : '' %>
+            <%= category.name %>
+            </option>
+        <% }) %>
     </select>
-    <select name="status" id="status">
+    </div>
+    <div>
+        <select name="status" id="status">
         <option value="available" <%= vehicle?.status === 'available' ? 'selected' : '' %>>Available</option>
         <option value="sold" <%= vehicle?.status === 'sold' ? 'selected' : '' %>>Sold</option>
         </select>
-    <input name="year" value="<%= vehicle.year %>">
+    </div>
+    <div>
+        <input name="year" value="<%= vehicle.year %>">
+    </div>
     <button type="submit">Update Vehicle</button>
 </form>
 

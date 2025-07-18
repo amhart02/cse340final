@@ -2,11 +2,14 @@
     <h1>Review <%= vehicle.name %> </h1>
 
     <form action="/reviews/<%= category %>/<%= vehicle.id %>" method="POST" class="review-form">
-        <label for="review">Leave Your Review:</label>
-        <textarea id="review"
-            name="review"
-            required
-            maxlength="255"></textarea>
+        <div>
+            <label for="review">Leave Your Review:</label>
+            <textarea id="review"
+                name="review"
+                required
+                maxlength="255">
+            </textarea>
+        </div>
 
         <div class="form-actions">
             <button type="submit">Submit</button>

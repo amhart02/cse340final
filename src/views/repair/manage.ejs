@@ -6,11 +6,11 @@
             <h2>No Repairs</h2>
         <% } else { %>
             <% requests.forEach(request => { %>
-                <div>
+                <div class="repairs">
                     <h3><%= request.vehicle_name %></h3>
-                    <h2><%= request.status %></h2>
                     <p><%= request.description %></p>
-                    <a href="/repair/edit/<%= request.id %>">Edit</a>
+                    <h4><span><%= request.status %></span></h4>
+                    <a class="edit" href="/repair/edit/<%= request.id %>">Edit</a>
                 </div>
             <% }) %>
         <% } %>

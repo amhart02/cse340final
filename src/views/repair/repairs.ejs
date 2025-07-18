@@ -6,13 +6,15 @@
             <h2>No Repairs Yet</h2>
         <% } else { %>
             <% requests.forEach(repair => { %>
-                <div>
+                <div class="repairs">
                     <h3><%= repair.vehicle_name %></h3>
                     <p><%= repair.description %></p>
-                    <h2><%= repair.status %></h2>
+                    <h4><span><%= repair.status %></span></h4>
                 </div>
             <% }) %>
         <% } %>
-        <a href="/repair/create">Create Repair Request</a>
+        <div class="repair-container">
+            <a class="repair" href="/repair/create">Create Repair Request</a>
+        </div>
     </div>
 <%- include('../partials/footer') %>

@@ -2,18 +2,10 @@
     <h1>Account Dashboard</h1>
     
     <div class="dashboard-welcome">
-    <h2>Welcome back!</h2>
+    <h2 class="welcome">Welcome back <%= user.email %>!</h2>
 </div>
 
 <div class="dashboard-content">
-    <section class="account-info">
-        <h3>Account Information</h3>
-        <p><strong>Email:</strong> <%= user.email %></p>
-        <p><strong>Role:</strong> <%= user.role_name %></p>
-        <p><strong>Session Status:</strong> Active</p>
-    </section>
-
-    <section class="dashboard-actions">
         <h3>Quick Actions</h3>
         <ul>
             <% if ( user.role_name === "management") { %>
@@ -32,7 +24,6 @@
                 <li><a href="/repair">Repair Requests</a></li>
             <% } %>
         </ul>
-    </section>
 </div>
 
     <div class="logout-section">

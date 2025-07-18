@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
     <h1>Your Reviews </h1>
 
-    <div>
+    <div class="reviews">
         <% if (reviews.length === 0) { %>
             <h2>No Reviews Yet</h2>
             <p>Visit a car page to leave a review!</p>
@@ -15,6 +15,7 @@
                         <button type="submit">Delete</button>
                     </form>
                 </div>
+            </div>
             <% }) %>
         <% } %>
     </div>

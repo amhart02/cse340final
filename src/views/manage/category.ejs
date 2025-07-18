@@ -6,10 +6,10 @@
             <h2>No Categories</h2>
         <% } else { %>
             <% categories.forEach(category => { %>
-                <div>
+                <div class="categories">
                     <h3><%= category.name %></h3>
                     <a href="/manage/category/edit/<%= category.slug %>">Edit</a>
-                    <form action="/manage/category/delete/<%= category.slug %>" method="POST">
+                    <form action="/manage/category/delete/<%= category.id %>" method="POST">
                         <button type="submit">Delete</button>
                     </form>
                 </div>
@@ -17,5 +17,7 @@
         <% } %>
     </div>
 
-    <a href="/manage/category/add">Add a Category</a>
+    <div class="add-container">
+        <a class="add" href="/manage/category/add">Add a Category</a>
+    </div>
 <%- include('../partials/footer') %>

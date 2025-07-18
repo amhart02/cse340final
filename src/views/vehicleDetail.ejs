@@ -2,9 +2,20 @@
 
 <h1><%= vehicle.name %></h1>
 
-<img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
-
+<div class="vehicle-grid">
+    <div class="vehicle-card">
+            <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
+            <section>
+                <div>
+                    <h3>Price: <span>$<%= Number(vehicle.price).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) %></span></h3>
+                    <h4>Year: <span><%= vehicle.year %></span></h4>
+                    <h5>Status: <span><%= vehicle.status %></span></h5>
+                    <p> <%= vehicle.description %></p>
+                </div>
+            </section>
+    </div>
+</div>
 <% if (user && user.role_name === "user") { %>
-    <a href="/reviews/<%= category %>/<%= vehicle.id %>">Leave a Review</a>
+    <a class="review" href="/reviews/<%= category %>/<%= vehicle.id %>">Leave a Review</a>
 <% } %> 
 <%- include('partials/footer') %>

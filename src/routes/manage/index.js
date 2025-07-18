@@ -37,9 +37,9 @@ router.post('/vehicle/edit/:id', async (req, res) => {
         return res.redirect("/");
     }
     const vehicleId = req.params.id;
-    const { name, description, price, image, category_id, year } = req.body;
+    const { name, description, price, image, category_id, year, status } = req.body;
 
-    if (!name || !description || !price || !category_id || !year) {
+    if (!name || !description || !price || !category_id || !year || !status) {
         req.flash('error', 'Please fill out all required fields.');
         return res.redirect(`/manage/vehicle/edit/${vehicleId}`);
     }
@@ -49,7 +49,7 @@ router.post('/vehicle/edit/:id', async (req, res) => {
     }
 
     try {
-        await editVehicle(vehicleId, { name, description, price, image, category_id, year }); 
+        await editVehicle(vehicleId, { name, description, price, image, category_id, year, status }); 
         req.flash('success', 'Vehicle updated successfully.')
         res.redirect('/manage/vehicle'); 
     } catch (error) {

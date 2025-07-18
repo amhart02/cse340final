@@ -24,14 +24,18 @@ h1 {
     padding: 2rem;
 }
 
+p {
+    text-align: center;
+}
+
 // added by AI
 .flash-message {
     padding: 1rem;
     margin: 1rem 0;
     border-radius: 5px;
     font-weight: bold;
-    // animation: fadeOut 0.5s ease-in-out forwards;
-    // animation-delay: 4s;
+    animation: fadeOut 0.5s ease-in-out forwards;
+    animation-delay: 4s;
     &.flash-success {
         background-color: #d4edda;
         color: #155724;
@@ -43,18 +47,21 @@ h1 {
         border: 1px solid #f5c6cb;
     }
 }
-// @keyframes fadeOut {
-//     to {
-//         opacity: 0;
-//         transform: translateY(-20px);
-//         pointer-events: none;
-//     }
-// }
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+        pointer-events: none;
+    }
+}
+// 
 
 nav {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0.5rem;
+    font-size: 0.9rem;
     img {
         margin: 1rem 0;
         width: 250px;
@@ -67,21 +74,27 @@ nav {
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        gap: 1.5rem;
         align-self: center;
+        flex-wrap: wrap; 
+        align-items: center;
+        gap: 0.5rem;
     }
-    li a {
+    li a, .nav-logout-btn {
         padding: 0.75rem;
         text-decoration: none;
-        font-size: 1rem;
         color: $primary-color;
         transition: color 0.5s ease;
         background-color: $white;
         border-radius: 6px;
         border: $black solid 3px;
+        font-size: 0.75rem;
     }
     li a:hover {
         color: $secondary-color;
+    }
+    form {
+        padding: 0;
+        
     }
 }
 
@@ -90,8 +103,78 @@ main {
     padding-bottom: 2rem;
     border-top: solid $black 4px;
     border-bottom: solid $black 4px;
+    min-height: 40vh;
 }
 
+form {
+    max-width: 600px;
+    padding: 1.5rem;
+    div {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.25rem;
+    }
+    label {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-size: 1rem;
+    }
+    input,
+    textarea {
+        font-family: $font;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        transition: border-color 0.3s ease;
+    }
+    input:focus,
+    textarea:focus {
+        border-color: #0077cc;
+        outline: none;
+    }
+    button {
+        font-family: $font;
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+        font-weight: bold;
+        color: $primary-color;
+        background-color: $white;
+        border: solid 3px $black;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: $secondary-color;
+        }
+    }
+    .secondary-link {
+        text-align: center;
+        padding: 1rem;
+        color: $secondary-color;
+    }
+    img {
+        width: 100%;
+        height: auto;
+        object-fit: cover;
+        padding-bottom: 1rem;
+    }
+}
+
+footer {
+    text-align: center;
+    color: $secondary-color;
+    font-size: 1.25em;
+    font-weight: 600;
+    background-color: $white;
+    margin: 4rem;
+    padding: 2rem;
+    border-radius: 6px;
+    border: solid $black 4px;
+}
+
+// INDEX PAGE
 .vehicle-grid {
     margin: 2rem;
     margin-top: 0;
@@ -121,6 +204,17 @@ main {
         align-items: center;
         margin: 1rem 0;
     }
+    h4 {
+        font-size: 1rem;
+    }
+    h5 {
+        font-size: 1rem;
+    }        
+    p {
+        font-size: 1rem;
+        padding-top: 1rem;
+        text-align: left;
+    }
     button {
         margin-left: 1rem;
         background-color: $primary-color;
@@ -137,8 +231,8 @@ main {
     }
 }
 
+
 .categories-list {
-    border-top: solid $black 4px;
     padding-top: 3rem;
     margin: 2rem;
     h2 {
@@ -146,84 +240,231 @@ main {
         color: $black;
         padding-bottom: 1rem;
     }
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0;
+    }
     li {
-        margin: 1rem;
-        padding: 4rem;
+        margin: 0.5rem;
+        padding: 1rem;
         text-align: center;
         list-style-type: none;
         border-radius: 6px;
+        width: 100%;
+        max-width: 300px;
     }
     li:nth-of-type(odd) {
         background-color: $primary-color;
         a {
         color: $primary-color;
+            &:hover {
+                color: $black;
+            }
         }
     }
     li:nth-of-type(even) {
         background-color: $secondary-color;
         a{
             color: $secondary-color;
+            &:hover {
+                color: $black;
+            }
         }
     }
     a {
+        display: inline-block;
         text-decoration: none;
-        font-size: 1rem;
+        font-size: 1.1rem;
         background-color: $white;
-        border: $black solid 3px;
+        border: $black solid 2px;
         border-radius: 6px;
+        padding: 0.75rem 1.25rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        
+    }
+}
+
+//DASHBOARD PAGE
+.welcome {
+    font-size: 1.5rem;
+    color: $primary-color;
+    text-align: center;
+}
+.dashboard-content {
+    border-top: solid $black 4px;
+    padding-top: 3rem;
+    margin: 2rem;
+    h3 {
+        text-align: center;
+        color: $black;
+        padding-bottom: 1rem;
+    }
+    ul {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0;
+    }
+    li {
+        margin: 0.5rem;
+        padding: 1rem;
+        text-align: center;
+        list-style-type: none;
+        border-radius: 6px;
+        width: 100%;
+        max-width: 300px;
+    }
+    li:nth-of-type(odd) {
+        background-color: $primary-color;
+        a {
+        color: $primary-color;
+            &:hover {
+                color: $black;
+            }
+        }
+    }
+    li:nth-of-type(even) {
+        background-color: $secondary-color;
+        a{
+            color: $secondary-color;
+            &:hover {
+                color: $black;
+            }
+        }
+    }
+    a {
+        display: inline-block;
+        text-decoration: none;
+        font-size: 1.1rem;
+        background-color: $white;
+        border: $black solid 2px;
+        border-radius: 6px;
+        padding: 0.75rem 1.25rem;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        
+    }
+}
+.logout-section {
+        display: flex;
+        justify-content: center;  
+        align-items: center;  
+        margin: 2rem 0;
+    }
+    .logout-form {
+        display: flex;
+        justify-content: center;
+    }
+
+// REVIEW PAGES
+.review {
+    display: block;
+    text-align: center;
+    color: $secondary-color;
+}
+.reviews{
+    text-align: center;
+    a {
+        color: $secondary-color;
+        font-size: 1rem;
+    }
+    h3 {
+        font-size: 1.75rem;
+    }
+    form {
         padding: 1rem;
     }
 }
 
-footer {
-    text-align: center;
+//VEHICLE/CATEGORY MANAGEMENT
+.edit, .add, .repair {
     color: $secondary-color;
-    font-size: 1.25em;
-    font-weight: 600;
-    background-color: $white;
-    margin: 5rem;
-    padding: 2rem;
-    border-radius: 6px;
-    border: solid $black 4px;
 }
-
-@media (min-width: 480px) {
-    nav ul {
-        flex-direction: row;
-    }
+.add-container, .repair-container {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    font-size: 1.25rem;
 }
-
-@media (min-width: 768px) {
-    nav {
-        margin: 2em 2em;
-    }
-}
-
-@media (min-width: 768px) {
-    nav {
-        ul li a {
-            font-size: 1.25rem;
+.delete {
+    padding-left: 0;
+    button {
+        margin-left: 0;
+        font-family: $font;
+        font-size: 1rem;
+        font-weight: bold;
+        color: $primary-color;
+        background-color: $white;
+        border: solid 3px $black;
+        border-radius: 6px;
+        text-align: center;
+        padding: 0;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        &:hover {
+            color: $secondary-color;
         }
-        img {
-            height: 150px;
-            width: 150px;
+    }
+}
+
+//MESSAGES
+.messages, .repairs, .categories {
+    text-align: left;
+    margin: 2rem;
+    p {
+        text-align: left;
+    }
+    span {
+        color: $primary-color
+    }
+    form {
+        padding-left: 0;
+    }
+    a {
+        color: $secondary-color
+    }
+}
+
+@media (min-width: 768px) {
+    main {
+        margin: 0 3rem;
+        padding: 2rem 5rem;
+        border: none;
+        border-radius: 6px;
+    }
+    nav {
+        flex-direction: row;
+        justify-content: space-between;
+        margin: 0 2rem;
+        align-items: center;
+        ul {
+            margin: 0;
         }
     }
 }
 
 @media (min-width: 1024px) {
-
+    .vehicle-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        .vehicle-card {
+            min-height: 300px;
+        }
+    }
 }
 
 @media (min-width: 1500px) {
-    nav {
-        margin: 0 2em;
-        ul li a {
-            font-size: 1.5rem;
-        }
-        img {
-            height: 200px;
-            width: 200px;
+    main {
+        margin: 0 4rem;
+        padding: 2rem 6rem;
+    }
+    .vehicle-grid {
+        margin: 2rem;
+        .vehicle-card {
+            min-height: 400px;
         }
     }
+    
 }
