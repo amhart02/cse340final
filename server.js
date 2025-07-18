@@ -59,8 +59,8 @@ app.use(flashMessages);
 app.use((req, res, next) => {
     res.locals.req = req;
     res.locals.user = req.session.user || null;
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
+    res.locals.successMessages = res.locals.flash.filter(msg => msg.type === 'success');
+    res.locals.errorMessages = res.locals.flash.filter(msg => msg.type === 'error');
     next()
 });
 

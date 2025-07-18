@@ -49,4 +49,11 @@ async function addCategory({ name, description }) {
     return result.rows[0];
 }
 
-export { getCategoryBySlug, getAllCategories, editCategory, addCategory};
+async function deleteCategory (categoryId) {
+    const query = `DELETE FROM categories WHERE id = $1;`;
+
+    const result = await db.query(query, categoryId);
+    return result;
+}
+
+export { getCategoryBySlug, getAllCategories, editCategory, addCategory, deleteCategory};

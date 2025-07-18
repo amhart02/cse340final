@@ -1,9 +1,16 @@
-<% if (flash && flash.length > 0) { %>
-    <div class="flash-messages">
-        <% flash.forEach(message => { %>
-            <div class="flash-message flash-<%= message.type %>">
-                <p><%= message.message %></p>
-            </div>
-        <% }); %>
-    </div>
+<% if (successMessages.length > 0) { %>
+  <div class="flash-message flash-success">
+    <% successMessages.forEach(msg => { %>
+      <p><%= msg.message %></p>
+    <% }) %>
+  </div>
 <% } %>
+
+<% if (errorMessages.length > 0) { %>
+  <div class="flash-message flash-error">
+    <% errorMessages.forEach(msg => { %>
+      <p><%= msg.message %></p>
+    <% }) %>
+  </div>
+<% } %>
+

@@ -7,10 +7,15 @@ import { createContactMessage, getAllContactMessages } from '../models/contact/i
 const router = Router();
 
 router.get('/', async (req, res) => {
-    const featuredVehicles = await getRandomVehicles();
-    const categories = await getAllCategories();
-    const title = "Home";
-    res.render('index', { title, featuredVehicles, categories })
+    try {
+        const featuredVehicles = await getRandomVehicles();
+        const categories = await getAllCategories();
+        const title = "Home";
+        res.render('index', { title, featuredVehicles, categories })
+    } catch (error) {
+        req.flash('error', 'Something went wrong loading the homepage.')
+        res.redirect('/')
+    }
 })
 
 //contact routes 
@@ -20,33 +25,72 @@ router.get('/contact', async (req, res) => {
 })
 router.post('/contact', async (req, res) => {
     const { fullName, email, message } = req.body;
-    await createContactMessage({ fullName, email, message });
-    res.redirect('/contact');
+
+    if (!fullName || !email || !message) {
+        req.flash("error", 'All fields are required.');
+        return res.redirect('/contact');
+    }
+    try {
+        await createContactMessage({ fullName, email, message });
+        req.flash('success', 'Thanks for reaching out! We\'ll be in touch soon.')
+        res.redirect('/contact');
+    } catch (error) {
+        console.log(error);
+        req.flash('error', 'Something went wrong. Please try again later.');
+        res.redirect('/contact');
+    }
 })
 router.get('/contact/messages', async (req, res) => {
     const title = 'Messages';
-    const messages = await getAllContactMessages();
-    res.render('messages', { title, messages });
+
+    if (!req.session.isLoggedIn || req.session.user.role_name == "user") {
+        req.flash('error', 'Access Denied');
+        return res.redirect("/");
+    }
+
+    try {
+        const messages = await getAllContactMessages();
+        res.render('messages', { title, messages });
+    } catch (error) {
+        console.log(error);
+        req.flash('error', 'Could not load messages.')
+    }
 })
 
 // category routes
 router.get('/category/:category', async (req, res, next) => {
     const { category } = req.params;
-    const categoryData = await getCategoryBySlug(category);
-    const vehicles = await getVehiclesByCategory(categoryData.id);
-    const title = categoryData.name;
-    if (!categoryData) {
-        const error = new Error('Category not found');
-        error.status = 404;
-        return next(error);
+
+    try {
+        const categoryData = await getCategoryBySlug(category);
+        if (!categoryData) {
+            req.flash('error', 'Category not found.')
+            return res.redirect('/');
+        }
+        const vehicles = await getVehiclesByCategory(categoryData.id);
+        const title = categoryData.name;
+        res.render('category', { title, categoryData, vehicles })
+    } catch (error) {
+        console.log(error);
+        req.flash('error', 'Something went wrong.')
+        res.redirect('/');
     }
-    res.render('category', { title, categoryData, vehicles })
 })
 router.get('/category/:category/:id', async (req, res) => {
     const { id, category } = req.params;
-    const vehicle = await getVehicleById(id);
-    const title = vehicle.name; 
-    res.render('vehicleDetail', { title, category, vehicle })
+
+    try {
+        const vehicle = await getVehicleById(id);
+        if (!vehicle) {
+            req.flash('error', 'Vehicle not found.')
+            return res.redirect(`/category/${category}`);
+        }
+        const title = vehicle.name; 
+        res.render('vehicleDetail', { title, category, vehicle })
+    } catch (error) {
+        console.log(error);
+        req.flash('error', 'Failed to load vehicle details.')
+    }
 })
 
 export default router;
