@@ -1,12 +1,11 @@
 <%- include('../partials/header') %>
     <h1>Manage Vehicles</h1>
 
-    <div>
+    <div class="manageVehicles">
         <% if (vehicles.length === 0) { %>
             <h2>No vehicles</h2>
         <% } else { %>
             <% vehicles.forEach(vehicle => { %>
-                <div class="vehicle-grid">
                     <div class="vehicle-card">
                         <img src="<%= vehicle.image %>" alt="<%= vehicle.name %>">
                         <h3><%= vehicle.name %></h3>
@@ -17,7 +16,6 @@
                             </form>
                         <% } %>
                     </div>
-                </div>
             <% }) %>
         <% } %>
     </div>

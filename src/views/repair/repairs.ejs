@@ -1,7 +1,7 @@
 <%- include('../partials/header') %>
     <h1>Your Repair Requests</h1>
 
-    <div>
+    <div class="repairdiv">
         <% if (requests.length === 0) { %>
             <h2>No Repairs Yet</h2>
         <% } else { %>
@@ -13,8 +13,8 @@
                 </div>
             <% }) %>
         <% } %>
-        <div class="repair-container">
-            <a class="repair" href="/repair/create">Create Repair Request</a>
-        </div>
+    </div>
+    <div class="repair-container">
+        <a class="repair" href="/repair/create">Create Repair Request</a>
     </div>
 <%- include('../partials/footer') %>

@@ -21,6 +21,14 @@ p {
   text-align: center;
 }
 
+.categorydescription {
+  text-align: center;
+  font-weight: 600;
+}
+.categorydescription span {
+  color: #1779ce;
+}
+
 .flash-message {
   padding: 1rem;
   margin: 1rem 0;
@@ -99,6 +107,8 @@ main {
 form {
   max-width: 600px;
   padding: 1.5rem;
+  display: block;
+  margin: 0 auto;
 }
 form div {
   display: flex;
@@ -168,6 +178,9 @@ footer {
   margin-top: 0;
 }
 
+.vehicle-card {
+  padding: 1rem;
+}
 .vehicle-card img {
   width: 100%;
   height: auto;
@@ -227,12 +240,13 @@ footer {
   padding-bottom: 1rem;
 }
 .categories-list ul {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   justify-content: center;
   padding: 0;
 }
 .categories-list li {
+  justify-self: center;
   margin: 0.5rem;
   padding: 1rem;
   text-align: center;
@@ -293,6 +307,7 @@ footer {
   padding: 0;
 }
 .dashboard-content li {
+  justify-self: center;
   margin: 0.5rem;
   padding: 1rem;
   text-align: center;
@@ -397,6 +412,7 @@ footer {
 .messages, .repairs, .categories {
   text-align: left;
   margin: 2rem;
+  display: block;
 }
 .messages p, .repairs p, .categories p {
   text-align: left;
@@ -409,6 +425,11 @@ footer {
 }
 .messages a, .repairs a, .categories a {
   color: #bf360c;
+}
+
+.manageVehicles, .repairdiv, .messagediv, .categorydiv {
+  display: grid;
+  grid-template-columns: 1fr;
 }
 
 @media (min-width: 768px) {
@@ -437,17 +458,35 @@ footer {
   .vehicle-grid .vehicle-card {
     min-height: 300px;
   }
+  .categories-list ul, .dashboard-content ul {
+    grid-template-columns: 1fr 1fr;
+  }
+  .manageVehicles, .repairdiv, .messagediv, .categorydiv {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 @media (min-width: 1500px) {
   main {
-    margin: 0 4rem;
-    padding: 2rem 6rem;
+    margin: 0 6rem;
+    padding: 2rem 5rem;
   }
   .vehicle-grid {
     margin: 2rem;
+    grid-template-columns: repeat(3, 1fr);
   }
   .vehicle-grid .vehicle-card {
     min-height: 400px;
+  }
+  .categories-list ul, .dashboard-content ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .categories-list li, .dashboard-content li {
+    margin: 0.25rem;
+    padding: 0.75rem;
+    max-width: 200px;
+  }
+  .manageVehicles, .repairdiv, .messagediv, .categorydiv {
+    grid-template-columns: 1fr 1fr 1fr;
   }
 }
 

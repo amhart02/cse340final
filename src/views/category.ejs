@@ -1,6 +1,7 @@
 <%- include('partials/header') %>
 
 <h1><%= categoryData.name %></h1>
+<h2 class="categorydescription">Description: <span><%= categoryData.description %></span></h2>
 
 <div class="vehicle-grid">
 <% if (vehicles.length=== 0) { %>

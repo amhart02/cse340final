@@ -2,13 +2,18 @@
     <h1>Create Repair Request</h1>
 
     <form action="/repair/create" method="POST" class="repair-form">
-        <label for="vehicleName">Vehicle Name:</label>
-        <input type="text" name="vehicleName" id="vehicleName">
-        <label for="description">Describe the Request:</label>
-        <textarea id="description"
-            name="description"
-            required
-            maxlength="255"></textarea>
+        <div>
+            <label for="vehicleName">Vehicle Name:</label>
+            <input type="text" name="vehicleName" id="vehicleName">
+        </div>
+        <div>
+            <label for="description">Describe the Request:</label>
+            <textarea id="description"
+                name="description"
+                required
+                maxlength="255">
+            </textarea>
+        </div>
 
         <div class="form-actions">
             <button type="submit">Submit</button>
